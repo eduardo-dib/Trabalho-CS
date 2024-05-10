@@ -28,7 +28,7 @@ app.MapPost("/cadastrar/medico", ([FromBody] Medico medico, [FromServices] AppDb
     context.SaveChanges();
     return Results.Ok("O paciente foi cadastrado");
    }
-   return Results.BadRequest("Paciente com o mesmo nome já foi criado");
+   return Results.BadRequest("Medico com o mesmo nome já foi criado");
 });
 
 app.MapPost("/cadastrar/setor", ([FromBody]Setor setor, [FromServices] AppDbContext context) =>{
