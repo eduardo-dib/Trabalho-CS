@@ -10,7 +10,7 @@ using SistemaGestaoHospitalar.Models;
 namespace SistemaGestaoHospitalar.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240508181227_InitialCreate")]
+    [Migration("20240510190429_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace SistemaGestaoHospitalar.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("Crm")
+                    b.Property<int>("Crm")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Descricao")
@@ -40,12 +40,17 @@ namespace SistemaGestaoHospitalar.Migrations
                     b.Property<string>("Nome")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("SetorId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Telefone")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Medico");
+                    b.HasIndex("SetorId");
+
+                    b.ToTable("Medicos");
                 });
 
             modelBuilder.Entity("SistemaGestaoHospitalar.Models.Paciente", b =>
@@ -72,6 +77,36 @@ namespace SistemaGestaoHospitalar.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Pacientes");
+                });
+
+            modelBuilder.Entity("SistemaGestaoHospitalar.Models.Setor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Setores");
+                });
+
+            modelBuilder.Entity("SistemaGestaoHospitalar.Models.Medico", b =>
+                {
+                    b.HasOne("SistemaGestaoHospitalar.Models.Setor", "Setor")
+                        .WithMany("Medicos")
+                        .HasForeignKey("SetorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Setor");
+                });
+
+            modelBuilder.Entity("SistemaGestaoHospitalar.Models.Setor", b =>
+                {
+                    b.Navigation("Medicos");
                 });
 #pragma warning restore 612, 618
         }

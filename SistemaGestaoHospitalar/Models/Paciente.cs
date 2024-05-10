@@ -2,7 +2,7 @@ namespace SistemaGestaoHospitalar.Models;
 
 public class Paciente{
  
-    private static int proximoId = 1;
+    private static int proximoIdPaciente = 1;
     public int Id {get; set;}
     public string? Nome {get;set;}
     public string? Genero {get;set;}
@@ -20,7 +20,7 @@ public class Paciente{
     }
 
     public Paciente(){
-        Id = proximoId++;
+        Id = proximoIdPaciente++;
     }
 
 

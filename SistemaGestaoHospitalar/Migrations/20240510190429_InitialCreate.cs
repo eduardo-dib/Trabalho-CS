@@ -11,24 +11,6 @@ namespace SistemaGestaoHospitalar.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Medico",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", nullable: true),
-                    Genero = table.Column<string>(type: "TEXT", nullable: true),
-                    Especialidade = table.Column<string>(type: "TEXT", nullable: true),
-                    Crm = table.Column<long>(type: "INTEGER", nullable: false),
-                    Telefone = table.Column<string>(type: "TEXT", nullable: true),
-                    Descricao = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Medico", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Pacientes",
                 columns: table => new
                 {
@@ -44,16 +26,62 @@ namespace SistemaGestaoHospitalar.Migrations
                 {
                     table.PrimaryKey("PK_Pacientes", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Setores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nome = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Setores", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Medicos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nome = table.Column<string>(type: "TEXT", nullable: true),
+                    Genero = table.Column<string>(type: "TEXT", nullable: true),
+                    Especialidade = table.Column<string>(type: "TEXT", nullable: true),
+                    Crm = table.Column<int>(type: "INTEGER", nullable: false),
+                    Telefone = table.Column<string>(type: "TEXT", nullable: true),
+                    Descricao = table.Column<string>(type: "TEXT", nullable: true),
+                    SetorId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Medicos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Medicos_Setores_SetorId",
+                        column: x => x.SetorId,
+                        principalTable: "Setores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Medicos_SetorId",
+                table: "Medicos",
+                column: "SetorId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Medico");
+                name: "Medicos");
 
             migrationBuilder.DropTable(
                 name: "Pacientes");
+
+            migrationBuilder.DropTable(
+                name: "Setores");
         }
     }
 }
