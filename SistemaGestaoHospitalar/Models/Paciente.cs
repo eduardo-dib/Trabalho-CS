@@ -2,25 +2,26 @@ namespace SistemaGestaoHospitalar.Models;
 
 public class Paciente{
  
-    private static int proximoIdPaciente = 1;
-    public int Id {get; set;}
+    public string Id {get; set;}
     public string? Nome {get;set;}
+    public string Cpf {get;set;}
     public string? Genero {get;set;}
     public string? Telefone {get;set;}
     public string? Descricao {get;set;}
-    public int RegistroMedico { get;set;}
 
-       public Paciente(string nome, string genero, string telefone, string descricao, int registroMedico)
+
+       public Paciente(string nome, string cpf, string genero, string telefone, string descricao)
     {
         Nome = nome;
+        Cpf = cpf;
         Genero = genero;
         Telefone = telefone;
         Descricao = descricao;
-        RegistroMedico = registroMedico;
     }
 
     public Paciente(){
-        Id = proximoIdPaciente++;
+         Id = Guid.NewGuid().ToString();
+
     }
 
 

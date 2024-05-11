@@ -14,13 +14,12 @@ namespace SistemaGestaoHospitalar.Migrations
                 name: "Pacientes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     Nome = table.Column<string>(type: "TEXT", nullable: true),
+                    Cpf = table.Column<string>(type: "TEXT", nullable: false),
                     Genero = table.Column<string>(type: "TEXT", nullable: true),
                     Telefone = table.Column<string>(type: "TEXT", nullable: true),
-                    Descricao = table.Column<string>(type: "TEXT", nullable: true),
-                    RegistroMedico = table.Column<int>(type: "INTEGER", nullable: false)
+                    Descricao = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -31,8 +30,7 @@ namespace SistemaGestaoHospitalar.Migrations
                 name: "Setores",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     Nome = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -44,15 +42,14 @@ namespace SistemaGestaoHospitalar.Migrations
                 name: "Medicos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     Nome = table.Column<string>(type: "TEXT", nullable: true),
                     Genero = table.Column<string>(type: "TEXT", nullable: true),
                     Especialidade = table.Column<string>(type: "TEXT", nullable: true),
                     Crm = table.Column<int>(type: "INTEGER", nullable: false),
                     Telefone = table.Column<string>(type: "TEXT", nullable: true),
                     Descricao = table.Column<string>(type: "TEXT", nullable: true),
-                    SetorId = table.Column<int>(type: "INTEGER", nullable: false)
+                    SetorId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

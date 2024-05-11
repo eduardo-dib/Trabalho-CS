@@ -3,8 +3,7 @@ namespace SistemaGestaoHospitalar.Models;
 
 public class Medico{
  
-    private static int proximoIdMedico = 1;
-    public int Id {get; set;}
+    public string Id {get; set;}
     public string? Nome {get;set;}
     public string? Genero{get;set;}
     public string? Especialidade{get;set;}
@@ -13,9 +12,9 @@ public class Medico{
     public string? Descricao{get;set;}
     public AppDbContext context{get;set;}
     public Setor Setor{get;set;}
-    public int SetorId { get; set; } 
+    public string SetorId { get; set; } 
 
-       public Medico(string nome, string genero, string especialidade, int crm, string telefone, string descricao)
+       public Medico(string nome, string genero, string especialidade, int crm, string telefone, string descricao, string setorId)
 {
     Nome = nome;
     Genero = genero;
@@ -23,10 +22,10 @@ public class Medico{
     Crm = crm;
     Telefone = telefone;
     Descricao = descricao;
-    Setor = context.Setores.FirstOrDefault(s => s.Nome == "Cardiologia");
+    Setor = context.Setores.FirstOrDefault(s => s.Id == setorId);
 }
     public Medico(){
-        Id = proximoIdMedico++;
+        Id = Guid.NewGuid().ToString();
     }
 
 

@@ -10,7 +10,7 @@ using SistemaGestaoHospitalar.Models;
 namespace SistemaGestaoHospitalar.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240510190429_InitialCreate")]
+    [Migration("20240511171005_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,9 +21,8 @@ namespace SistemaGestaoHospitalar.Migrations
 
             modelBuilder.Entity("SistemaGestaoHospitalar.Models.Medico", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Crm")
                         .HasColumnType("INTEGER");
@@ -40,8 +39,9 @@ namespace SistemaGestaoHospitalar.Migrations
                     b.Property<string>("Nome")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SetorId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("SetorId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Telefone")
                         .HasColumnType("TEXT");
@@ -55,9 +55,12 @@ namespace SistemaGestaoHospitalar.Migrations
 
             modelBuilder.Entity("SistemaGestaoHospitalar.Models.Paciente", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Descricao")
                         .HasColumnType("TEXT");
@@ -67,9 +70,6 @@ namespace SistemaGestaoHospitalar.Migrations
 
                     b.Property<string>("Nome")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("RegistroMedico")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Telefone")
                         .HasColumnType("TEXT");
@@ -81,9 +81,8 @@ namespace SistemaGestaoHospitalar.Migrations
 
             modelBuilder.Entity("SistemaGestaoHospitalar.Models.Setor", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Nome")
                         .HasColumnType("TEXT");
