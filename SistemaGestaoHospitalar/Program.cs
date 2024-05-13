@@ -44,6 +44,55 @@ app.MapGet("/hospital/buscar/paciente/{id}", ([FromRoute] string id,
     return Results.Ok(paciente);
 });
 
+
+
+//ENDPOINT PARA LISTAR PACIENTE
+app.MapGet("hospital/listar/paciente", ([FromServices] AppDbContext context) =>
+{
+    if (context.Pacientes.Any())
+    {
+        return Results.Ok(context.Pacientes.ToList());
+    }
+    return Results.NotFound("Pacientes não encontrados!");
+});
+
+//ENDPOINT PARA DELETAR PACIENTE
+app.MapDelete("/hospital/deletar/paciente/{id}", ([FromRoute] string id, [FromServices] AppDbContext context) =>
+{
+     Paciente? pacienteParaDeletar = context.Pacientes.FirstOrDefault(n => n.Id == id);
+
+    if (pacienteParaDeletar is null)
+    {
+        return Results.NotFound("Pacientes não encontrados!");
+    }
+    context.Pacientes.Remove(pacienteParaDeletar);
+    context.SaveChanges();
+    return Results.Ok("Paciente deletado com sucesso");
+});
+
+//ENDPOINT PARA ALTERAR PACIENTE
+app.MapPut("/hospital/alterar/paciente/{id}", ([FromRoute] string id, [FromBody] Paciente pacienteAlterado, [FromServices] AppDbContext context) =>
+{ 
+    Paciente? paciente = context.Pacientes.Find(id);
+
+    if (paciente is null)
+    {
+        return Results.NotFound("Paciente não encontrado!");
+    }
+
+    paciente.Nome = pacienteAlterado.Nome;
+    paciente.Cpf = pacienteAlterado.Cpf;
+    paciente.Genero = pacienteAlterado.Genero;
+    paciente.Telefone = pacienteAlterado.Telefone;
+    paciente.Descricao = pacienteAlterado.Descricao;
+    
+
+    context.Pacientes.Update(paciente);
+    context.SaveChanges();
+
+    return Results.Ok("Paciente alterado com sucesso!");
+});
+
 //ENDPOINT PARA CADASTRAR SETOR
 app.MapPost("/hospital/cadastrar/setor", ([FromBody]Setor setor, [FromServices] AppDbContext context) =>{
    
