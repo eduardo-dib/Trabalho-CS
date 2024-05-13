@@ -5,8 +5,6 @@ public class Setor{
     public string? Nome{get;set;}
     public List<Medico> Medicos {get;set;}
     
-
-    
     public Setor(string nome){
         Nome = nome;
 

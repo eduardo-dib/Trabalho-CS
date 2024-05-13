@@ -1,0 +1,36 @@
+
+#### Cadastrar medico
+POST http://localhost:5098/hospital/cadastrar/medico
+Content-Type: application/json
+
+{
+    "nome" : "Teste",
+    "genero" : "Masculino",
+    "especialidade" : "Cirurgião",
+    "crm" : 123456789,
+    "telefone" : "4002-8922",
+    "descricao" : "Doutor",
+    "setorid" : "64c81527-6d3c-4cba-82c5-7b2a6893b4e8"
+}
+
+#### Buscar medico
+GET http://localhost:5098/hospital/buscar/medico/7d7794da-162b-469b-ac3b-95da21e863cd
+#### Listar medico
+GET http://localhost:5098/hospital/listar/medico
+
+#### Alterar medico
+PUT http://localhost:5098/hospital/atualizar/medico/7d7794da-162b-469b-ac3b-95da21e863cd
+Content-Type: application/json
+
+{
+    "nome" : "André",
+    "genero" : "Masculino",
+    "especialidade" : "Enfermeiro",
+    "crm" : 987654321,
+    "telefone" : "4002-0202",
+    "descricao" : "Enfermeiro",
+    "setorid" : "Raio-X"
+}
+
+#### Deletar medico
+DELETE http://localhost:5098/hospital/deletar/medico/4d75eb1a-8a94-4c7c-b574-52debb97298a
