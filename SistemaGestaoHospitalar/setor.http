@@ -4,7 +4,7 @@ POST http://localhost:5098/hospital/cadastrar/setor
 Content-Type: application/json
 
 {
-    "nome" : "teste"
+    "nome" : "Teste"
 }
 
 #### Buscar setor
@@ -14,7 +14,7 @@ GET http://localhost:5098/hospital/buscar/setor/64c81527-6d3c-4cba-82c5-7b2a6893
 GET http://localhost:5098/hospital/listar/setor
 
 #### Alterar setor 
-PUT http://localhost:5098/hospital/atualizar/setor/d7460aa3-f97c-4c3d-b2ed-f63026201eae
+PUT http://localhost:5098/hospital/atualizar/setor/67237d87-afae-486f-9df2-384d2b88577f
 Content-Type: application/json
 
 {
@@ -22,4 +22,4 @@ Content-Type: application/json
 }
 
 #### Deletar setor
-DELETE http://localhost:5098/hospital/deletar/setor/d7460aa3-f97c-4c3d-b2ed-f63026201eae
+DELETE http://localhost:5098/hospital/deletar/setor/67237d87-afae-486f-9df2-384d2b88577f

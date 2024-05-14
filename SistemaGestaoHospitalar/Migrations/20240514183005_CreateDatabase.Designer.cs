@@ -10,14 +10,40 @@ using SistemaGestaoHospitalar.Models;
 namespace SistemaGestaoHospitalar.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240511171005_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240514183005_CreateDatabase")]
+    partial class CreateDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
+
+            modelBuilder.Entity("SistemaGestaoHospitalar.Models.Medicamento", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("QuantidadeDisponivel")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SetorId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SetorId");
+
+                    b.ToTable("Medicamentos");
+                });
 
             modelBuilder.Entity("SistemaGestaoHospitalar.Models.Medico", b =>
                 {
@@ -90,6 +116,17 @@ namespace SistemaGestaoHospitalar.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Setores");
+                });
+
+            modelBuilder.Entity("SistemaGestaoHospitalar.Models.Medicamento", b =>
+                {
+                    b.HasOne("SistemaGestaoHospitalar.Models.Setor", "Setor")
+                        .WithMany()
+                        .HasForeignKey("SetorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Setor");
                 });
 
             modelBuilder.Entity("SistemaGestaoHospitalar.Models.Medico", b =>

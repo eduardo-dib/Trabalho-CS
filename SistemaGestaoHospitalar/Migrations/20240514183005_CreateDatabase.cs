@@ -5,7 +5,7 @@
 namespace SistemaGestaoHospitalar.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class CreateDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,6 +39,27 @@ namespace SistemaGestaoHospitalar.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Medicamentos",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Nome = table.Column<string>(type: "TEXT", nullable: true),
+                    QuantidadeDisponivel = table.Column<int>(type: "INTEGER", nullable: false),
+                    Descricao = table.Column<string>(type: "TEXT", nullable: false),
+                    SetorId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Medicamentos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Medicamentos_Setores_SetorId",
+                        column: x => x.SetorId,
+                        principalTable: "Setores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Medicos",
                 columns: table => new
                 {
@@ -63,6 +84,11 @@ namespace SistemaGestaoHospitalar.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Medicamentos_SetorId",
+                table: "Medicamentos",
+                column: "SetorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Medicos_SetorId",
                 table: "Medicos",
                 column: "SetorId");
@@ -71,6 +97,9 @@ namespace SistemaGestaoHospitalar.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Medicamentos");
+
             migrationBuilder.DropTable(
                 name: "Medicos");
 
