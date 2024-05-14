@@ -1,0 +1,30 @@
+
+#### Cadastrar medicamento
+POST http://localhost:5098/hospital/cadastrar/medicamento
+Content-Type: application/json
+
+{
+    "nome" : " Digoxina",
+    "quantidadeDisponivel" : 5,
+    "descricao" : "Remédio Cardíaco",
+    "setorid" : "9927b68e-24cb-4d1c-8da0-6e871041922a"
+}
+
+#### Buscar medicamento
+GET http://localhost:5098/hospital/buscar/medicamento/cbeb6760-5917-49b4-815c-6f7eced1f404
+#### Listar medicamento
+GET http://localhost:5098/hospital/listar/medicamento
+
+#### Alterar medicamento
+PUT http://localhost:5098/hospital/atualizar/medicamento/cbeb6760-5917-49b4-815c-6f7eced1f404
+Content-Type: application/json
+
+{
+    "nome" : "Paracetamol",
+    "quantidadeDisponivel" : 8,
+    "descricao" : "Analgésico",
+    "setorid" : "9927b68e-24cb-4d1c-8da0-6e871041922a"
+}
+
+#### Deletar medicamento
+DELETE http://localhost:5098/hospital/deletar/medicamento/cbeb6760-5917-49b4-815c-6f7eced1f404

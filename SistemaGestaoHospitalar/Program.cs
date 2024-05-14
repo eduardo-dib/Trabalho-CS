@@ -11,6 +11,7 @@ var app = builder.Build();
 List<Paciente> pacientes = new List<Paciente>();
 List<Setor> setores = new List<Setor>();
 List<Medico> medicos = new List<Medico>();
+List<Medicamento> medicamentos = new List<Medicamento>();
 
 app.MapGet("/", () => "Hello World!");
 
@@ -252,6 +253,84 @@ app.MapDelete("/hospital/deletar/medico/{id}", ([FromRoute] string id, [FromServ
     return Results.Ok("O médico foi deletado com sucesso!");
 });
 
+//ENDPOINT PARA CADASTRAR MEDICAMENTO
+app.MapPost("hospital/cadastrar/medicamento", ([FromBody]Medicamento medicamento, [FromServices] AppDbContext context) =>{
+   
+   Medicamento? medicamentoBuscado = context.Medicamentos.FirstOrDefault(n => n.Nome.ToUpper() == medicamento.Nome.ToUpper());
+    if (medicamentoBuscado == null)
+ {
+    medicamento.Nome = medicamento.Nome.ToUpper();
+    context.Medicamentos.Add(medicamento);
+    context.SaveChanges();
+    return Results.Ok("O Medicamento foi cadastrado");
+ }
+return Results.BadRequest("Medicamento com o mesmo nome já cadastrado");
+});
+
+//ENDPOINT PARA BUSCAR MEDICAMENTO
+app.MapGet("/hospital/buscar/medicamento/{id}", ([FromRoute] string id,
+    [FromServices] AppDbContext context) =>
+{
+
+    Medicamento? medicamento = context.Medicamentos.FirstOrDefault(x => x.Id == id);
+
+    if (medicamento is null)
+    {
+        return Results.NotFound("Medicamento não encontrado!");
+    }
+    return Results.Ok(medicamento);
+});
+
+//ENDPOINT PARA LISTAR MEDICAMENTO
+app.MapGet("/hospital/listar/medicamento", ([FromServices] AppDbContext context) =>
+{
+    if (context.Medicamentos.Any())
+    {
+        return Results.Ok(context.Medicamentos.ToList());
+    }
+    return Results.NotFound("Não existem medicamentos na tabela");
+});
+
+// ENDPOINT PARA ATUALIZAR MEDICAMENTO
+app.MapPut("/hospital/atualizar/medicamento/{id}", ([FromRoute] string id, [FromBody] Medicamento medicamentoAtualizado, [FromServices] AppDbContext context) =>
+{
+    Medicamento? medicamentoExistente = context.Medicamentos.FirstOrDefault(n => n.Id == id);
+
+    if (medicamentoExistente == null)
+    {
+        return Results.NotFound("Medicamento não encontrado!");
+    }
+
+    Medicamento? medicamentoDuplicado = context.Medicamentos.FirstOrDefault(n => n.Nome.ToUpper() == medicamentoAtualizado.Nome.ToUpper() && n.Id != id);
+
+    if (medicamentoDuplicado != null)
+    {
+        return Results.BadRequest("Já existe um medicamento com este nome!");
+    }
+
+    medicamentoExistente.Nome = medicamentoAtualizado.Nome.ToUpper();
+    medicamentoExistente.QuantidadeDisponivel = medicamentoAtualizado.QuantidadeDisponivel;
+    medicamentoExistente.Descricao = medicamentoAtualizado.Descricao;
+    medicamentoExistente.SetorId = medicamentoAtualizado.SetorId;
+    context.SaveChanges();
+    return Results.Ok("O medicamento foi atualizado com sucesso!");
+});
+
+// ENDPOINT PARA DELETAR MEDICAMENTO
+app.MapDelete("/hospital/deletar/medicamento/{id}", ([FromRoute] string id, [FromServices] AppDbContext context) =>
+{
+    Medicamento? medicamentoParaDeletar = context.Medicamentos.FirstOrDefault(n => n.Id == id);
+
+    if (medicamentoParaDeletar == null)
+    {
+        return Results.NotFound("Medicamento não encontrado!");
+    }
+
+    context.Medicamentos.Remove(medicamentoParaDeletar);
+    context.SaveChanges();
+
+    return Results.Ok("O medicamento foi deletado com sucesso!");
+});
 
 app.Run();
 
