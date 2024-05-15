@@ -135,7 +135,7 @@ app.MapGet("/hospital/buscar/setor/{id}", ([FromRoute] string id,
     .FirstOrDefault();
     if (setor is null)
     {
-        return Results.NotFound();
+        return Results.NotFound("Setor não encontrado");
     }
     return Results.Ok(setor);
 });
@@ -252,7 +252,7 @@ app.MapGet("/hospital/buscar/medico/{id}", ([FromRoute] string id,
 
     if (medico == null)
     {
-        return Results.NotFound();
+        return Results.NotFound("Médico não encontrado!");
     }
 
     return Results.Ok(medico);
@@ -349,12 +349,24 @@ app.MapGet("/hospital/buscar/medicamento/{id}", ([FromRoute] string id,
     [FromServices] AppDbContext context) =>
 {
 
-    Medicamento? medicamento = context.Medicamentos.FirstOrDefault(x => x.Id == id);
+    var medicamento = context.Medicamentos
+        .Where(m => m.Id == id)
+        .Include(m => m.Setor)
+        .Select(m => new
+        {
+            m.Id,
+            m.Nome,
+            m.QuantidadeDisponivel,
+            m.Descricao,
+            SetorNome = m.Setor.Nome
+        })
+        .FirstOrDefault();
 
-    if (medicamento is null)
+    if (medicamento == null)
     {
         return Results.NotFound("Medicamento não encontrado!");
     }
+
     return Results.Ok(medicamento);
 });
 
@@ -363,8 +375,21 @@ app.MapGet("/hospital/listar/medicamento", ([FromServices] AppDbContext context)
 {
     if (context.Medicamentos.Any())
     {
-        return Results.Ok(context.Medicamentos.ToList());
+        var medicamentos = context.Medicamentos
+            .Include(m => m.Setor)
+            .Select(m => new
+            {
+                 m.Id,
+                 m.Nome,
+                 m.QuantidadeDisponivel,
+                 m.Descricao,
+                 SetorNome = m.Setor.Nome
+            })
+            .ToList();
+
+        return Results.Ok(medicamentos);
     }
+
     return Results.NotFound("Não existem medicamentos na tabela");
 });
 
@@ -388,7 +413,6 @@ app.MapPut("/hospital/atualizar/medicamento/{id}", ([FromRoute] string id, [From
     medicamentoExistente.Nome = medicamentoAtualizado.Nome.ToUpper();
     medicamentoExistente.QuantidadeDisponivel = medicamentoAtualizado.QuantidadeDisponivel;
     medicamentoExistente.Descricao = medicamentoAtualizado.Descricao;
-    medicamentoExistente.SetorId = medicamentoAtualizado.SetorId;
     context.SaveChanges();
     return Results.Ok("O medicamento foi atualizado com sucesso!");
 });

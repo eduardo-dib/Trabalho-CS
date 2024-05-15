@@ -4,27 +4,26 @@ POST http://localhost:5098/hospital/cadastrar/medicamento
 Content-Type: application/json
 
 {
-    "nome" : " Digoxina",
+    "nome" : " Digina",
     "quantidadeDisponivel" : 5,
     "descricao" : "Remédio Cardíaco",
-    "setorid" : "54c7d305-f50a-4173-aa99-5338fa29e866"
+    "setorid" : "82be34b3-87ae-46d9-91f0-de7ee7d6a9d9"
 }
 
 #### Buscar medicamento
-GET http://localhost:5098/hospital/buscar/medicamento/cbeb6760-5917-49b4-815c-6f7eced1f404
+GET http://localhost:5098/hospital/buscar/medicamento/444d8ae1-cb05-46d7-b3da-c818ed6c7be2
 #### Listar medicamento
 GET http://localhost:5098/hospital/listar/medicamento
 
 #### Alterar medicamento
-PUT http://localhost:5098/hospital/atualizar/medicamento/cbeb6760-5917-49b4-815c-6f7eced1f404
+PUT http://localhost:5098/hospital/atualizar/medicamento/ce47b6b1-906f-4c46-b7d2-4c4682c68ccd
 Content-Type: application/json
 
 {
     "nome" : "Paracetamol",
     "quantidadeDisponivel" : 8,
-    "descricao" : "Analgésico",
-    "setorid" : "9927b68e-24cb-4d1c-8da0-6e871041922a"
+    "descricao" : "Analgésico"
 }
 
 #### Deletar medicamento
-DELETE http://localhost:5098/hospital/deletar/medicamento/cbeb6760-5917-49b4-815c-6f7eced1f404
+DELETE http://localhost:5098/hospital/deletar/medicamento/ce47b6b1-906f-4c46-b7d2-4c4682c68ccd
