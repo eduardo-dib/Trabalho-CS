@@ -14,4 +14,11 @@ public class AppDbContext : DbContext
     {
         optionsBuilder.UseSqlite("Data Source=Hospital.db");
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Setor>()
+            .HasMany(s => s.Medicos)
+            .WithOne(m => m.Setor)
+            .HasForeignKey(m => m.SetorId);
+    }
 }

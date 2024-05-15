@@ -4,22 +4,22 @@ POST http://localhost:5098/hospital/cadastrar/setor
 Content-Type: application/json
 
 {
-    "nome" : "Teste"
+    "nome" : "Cardiologia"
 }
 
 #### Buscar setor
-GET http://localhost:5098/hospital/buscar/setor/64c81527-6d3c-4cba-82c5-7b2a6893b4e8
+GET http://localhost:5098/hospital/buscar/setor/214697d8-2ce2-4777-ab8c-180fe9b7c8cd
 
 #### Listar setor
 GET http://localhost:5098/hospital/listar/setor
 
 #### Alterar setor 
-PUT http://localhost:5098/hospital/atualizar/setor/67237d87-afae-486f-9df2-384d2b88577f
+PUT http://localhost:5098/hospital/atualizar/setor/214697d8-2ce2-4777-ab8c-180fe9b7c8cd
 Content-Type: application/json
 
 {
-    "nome" : "TESTE2"
+    "nome" : "Pediatria"
 }
 
 #### Deletar setor
-DELETE http://localhost:5098/hospital/deletar/setor/67237d87-afae-486f-9df2-384d2b88577f
+DELETE http://localhost:5098/hospital/deletar/setor/214697d8-2ce2-4777-ab8c-180fe9b7c8cd

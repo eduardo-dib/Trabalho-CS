@@ -1,4 +1,5 @@
 using SistemaGestaoHospitalar.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
 
@@ -113,12 +114,28 @@ app.MapPost("/hospital/cadastrar/setor", ([FromBody]Setor setor, [FromServices] 
 app.MapGet("/hospital/buscar/setor/{id}", ([FromRoute] string id,
     [FromServices] AppDbContext context) =>
 {
-    
-    Setor? setor = context.Setores.FirstOrDefault(x => x.Id == id);
-
+    var setor = context.Setores
+    .Where(s => s.Id == id)
+    .Include(s => s.Medicos)
+    .Select(s => new
+    {
+        s.Id,
+        s.Nome,
+        Medicos = s.Medicos.Select(m => new
+        {
+            m.Id,
+            m.Nome,
+            m.Genero,
+            m.Especialidade,
+            m.Crm,
+            m.Telefone,
+            m.Descricao
+        }).ToList()
+    })
+    .FirstOrDefault();
     if (setor is null)
     {
-        return Results.NotFound("Setor não encontrado!");
+        return Results.NotFound();
     }
     return Results.Ok(setor);
 });
@@ -126,11 +143,26 @@ app.MapGet("/hospital/buscar/setor/{id}", ([FromRoute] string id,
 //ENDPOINT PARA LISTAR SETOR
 app.MapGet("/hospital/listar/setor", ([FromServices] AppDbContext context) =>
 {
-    if (context.Setores.Any())
-    {
-        return Results.Ok(context.Setores.ToList());
-    }
-    return Results.NotFound("Não existem setores na tabela");
+   var setores = context.Setores
+        .Include(x => x.Medicos)
+        .Select(s => new
+        {
+            s.Id,
+            s.Nome,
+            Medicos = s.Medicos.Select(m => new
+            {
+                m.Id,
+                m.Nome,
+                m.Genero,
+                m.Especialidade,
+                m.Crm,
+                m.Telefone,
+                m.Descricao
+            }).ToList()
+        })
+        .ToList();
+
+    return Results.Ok(setores);
 });
 
 // ENDPOINT PARA ATUALIZAR SETOR
@@ -175,15 +207,26 @@ app.MapDelete("/hospital/deletar/setor/{id}", ([FromRoute] string id, [FromServi
 //ENDPOINT PARA CADASTRAR MÉDICO
 app.MapPost("hospital/cadastrar/medico", ([FromBody]Medico medico, [FromServices] AppDbContext context) =>{
    
-   Medico? medicoBuscado = context.Medicos.FirstOrDefault(n => n.Nome.ToUpper() == medico.Nome.ToUpper());
-    if (medicoBuscado == null)
- {
+   Medico medicoBuscado = context.Medicos.FirstOrDefault(c => c.Crm == medico.Crm);
+    if (medicoBuscado != null)
+    {
+        return Results.BadRequest("Médico com o mesmo CRM já cadastrado");
+    }
+    
+    // Busca o setor pelo Id (supondo que o Id do setor foi passado junto com o médico)
+    Setor setor = context.Setores.Find(medico.SetorId);
+    if (setor == null)
+    {
+        return Results.BadRequest("Setor não encontrado");
+    }
+
+    // Adiciona o médico ao setor
     medico.Nome = medico.Nome.ToUpper();
+    setor.Medicos.Add(medico);
     context.Medicos.Add(medico);
-    context.SaveChanges();
+    context.SaveChangesAsync();
+
     return Results.Ok("O Médico foi cadastrado");
- }
-return Results.BadRequest("Médico com o mesmo nome já cadastrado");
 });
 
 //ENDPOINT PARA BUSCAR MEDICO
@@ -191,23 +234,56 @@ app.MapGet("/hospital/buscar/medico/{id}", ([FromRoute] string id,
     [FromServices] AppDbContext context) =>
 {
     
-    Medico? medico = context.Medicos.FirstOrDefault(x => x.Id == id);
+    var medico = context.Medicos
+        .Where(m => m.Id == id)
+        .Include(m => m.Setor)
+        .Select(m => new
+        {
+            m.Id,
+            m.Nome,
+            m.Genero,
+            m.Especialidade,
+            m.Crm,
+            m.Telefone,
+            m.Descricao,
+            SetorNome = m.Setor.Nome
+        })
+        .FirstOrDefault();
 
-    if (medico is null)
+    if (medico == null)
     {
-        return Results.NotFound("Setor não encontrado!");
+        return Results.NotFound();
     }
+
     return Results.Ok(medico);
 });
+
 
 //ENDPOINT PARA LISTAR MÉDICO
 app.MapGet("/hospital/listar/medico", ([FromServices] AppDbContext context) =>
 {
     if (context.Medicos.Any())
     {
-        return Results.Ok(context.Medicos.ToList());
+        var medicos = context.Medicos
+            .Include(m => m.Setor)
+            .Select(m => new
+            {
+                m.Id,
+                m.Nome,
+                m.Genero,
+                m.Especialidade,
+                m.Crm,
+                m.Telefone,
+                m.Descricao,
+                SetorNome = m.Setor.Nome
+            })
+            .ToList();
+
+        return Results.Ok(medicos);
     }
+
     return Results.NotFound("Não existem medicos na tabela");
+
 });
 
 // ENDPOINT PARA ATUALIZAR MÉDICO

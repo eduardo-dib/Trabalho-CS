@@ -4,8 +4,8 @@ POST http://localhost:5098/hospital/cadastrar/paciente
 Content-Type: application/json
 
 {
-    "nome" : "Beatriz Humberto da Costa",
-    "cpf" : "100003450-77",
+    "nome" : "Pedro Barbosa",
+    "cpf" : "1000043450-77",
     "genero" : "Feminino",
     "telefone" : "4002-8456",
     "descricao" : "Sintomas de tuberculose"
@@ -13,12 +13,12 @@ Content-Type: application/json
 }
 
 #### Buscar paciente
-GET http://localhost:5098/hospital/buscar/paciente/422b9e00-8704-4d36-b704-7b6be10aaf29
+GET http://localhost:5098/hospital/buscar/paciente/92f500bb-cf99-4241-8ed5-620f6782a7e1
 #### Listar paciente
 GET http://localhost:5098/hospital/listar/paciente
 
 #### Alterar paciente
-PUT http://localhost:5098/hospital/alterar/paciente/9207b692-0e5c-4575-b19d-5bbdcebdaf17
+PUT http://localhost:5098/hospital/alterar/paciente/92f500bb-cf99-4241-8ed5-620f6782a7e1
 Content-Type: application/json
 
 {
@@ -31,4 +31,4 @@ Content-Type: application/json
 }
 
 #### Deletar paciente
-DELETE http://localhost:5098/hospital/deletar/paciente/422b9e00-8704-4d36-b704-7b6be10aaf29
+DELETE http://localhost:5098/hospital/deletar/paciente/92f500bb-cf99-4241-8ed5-620f6782a7e1
