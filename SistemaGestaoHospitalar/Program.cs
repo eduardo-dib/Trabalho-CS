@@ -471,14 +471,25 @@ app.MapPost("hospital/consulta/agendar", ([FromBody] ConsultaRequest consultaReq
 app.MapGet("/hospital/consulta/buscar/{id}", ([FromRoute] string id,
     [FromServices] AppDbContext context) =>
 {
-    
-    Consulta? consulta = context.Consultas.FirstOrDefault(x => x.Id == id);
-
-    if (consulta is null)
+    var consulta = context.Consultas
+    .Include(c => c.Paciente)
+    .Include(c => c.Medico)
+    .Where(c => c.Id == id)
+    .Select(c => new
     {
-        return Results.NotFound("Consulta não encontrada");
-    }
-    return Results.Ok(consulta);
+        c.Id,
+        c.DataHoraConsulta,
+        c.Observacoes,
+        PacienteNome = c.Paciente.Nome,
+        MedicoNome = c.Medico.Nome
+    })
+    .FirstOrDefault();
+
+if (consulta is null)
+{
+    return Results.NotFound("Consulta não encontrada");
+}
+return Results.Ok(consulta);
 });
 
 app.Run();
