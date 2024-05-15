@@ -1,0 +1,34 @@
+
+#### Cadastrar paciente
+POST http://localhost:5098/hospital/cadastrar/paciente
+Content-Type: application/json
+
+{
+    "nome" : "Beatriz Humberto da Costa",
+    "cpf" : "100003450-77",
+    "genero" : "Feminino",
+    "telefone" : "4002-8456",
+    "descricao" : "Sintomas de tuberculose"
+    
+}
+
+#### Buscar paciente
+GET http://localhost:5098/hospital/buscar/paciente/422b9e00-8704-4d36-b704-7b6be10aaf29
+#### Listar paciente
+GET http://localhost:5098/hospital/listar/paciente
+
+#### Alterar paciente
+PUT http://localhost:5098/hospital/alterar/paciente/9207b692-0e5c-4575-b19d-5bbdcebdaf17
+Content-Type: application/json
+
+{
+    "nome" : "Beatriz da Costa",
+    "cpf" : "100003450-77",
+    "genero" : "Feminino",
+    "telefone" : "4002-8456",
+    "descricao" : "Fadiga"
+    
+}
+
+#### Deletar paciente
+DELETE http://localhost:5098/hospital/deletar/paciente/422b9e00-8704-4d36-b704-7b6be10aaf29

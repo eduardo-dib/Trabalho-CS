@@ -16,6 +16,44 @@ namespace SistemaGestaoHospitalar.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
 
+            modelBuilder.Entity("SistemaGestaoHospitalar.Models.Consulta", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DataHoraConsulta")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MedicoId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MedicoNome")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Observacoes")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PacienteId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PacienteNome")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MedicoId");
+
+                    b.HasIndex("PacienteId");
+
+                    b.ToTable("Consultas");
+                });
+
             modelBuilder.Entity("SistemaGestaoHospitalar.Models.Medicamento", b =>
                 {
                     b.Property<string>("Id")
@@ -113,6 +151,25 @@ namespace SistemaGestaoHospitalar.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Setores");
+                });
+
+            modelBuilder.Entity("SistemaGestaoHospitalar.Models.Consulta", b =>
+                {
+                    b.HasOne("SistemaGestaoHospitalar.Models.Medico", "Medico")
+                        .WithMany()
+                        .HasForeignKey("MedicoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SistemaGestaoHospitalar.Models.Paciente", "Paciente")
+                        .WithMany()
+                        .HasForeignKey("PacienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Medico");
+
+                    b.Navigation("Paciente");
                 });
 
             modelBuilder.Entity("SistemaGestaoHospitalar.Models.Medicamento", b =>

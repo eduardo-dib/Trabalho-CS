@@ -12,6 +12,7 @@ List<Paciente> pacientes = new List<Paciente>();
 List<Setor> setores = new List<Setor>();
 List<Medico> medicos = new List<Medico>();
 List<Medicamento> medicamentos = new List<Medicamento>();
+List<Consulta> consultas = new List<Consulta>();
 
 app.MapGet("/", () => "Hello World!");
 
@@ -81,7 +82,7 @@ app.MapPut("/hospital/alterar/paciente/{id}", ([FromRoute] string id, [FromBody]
         return Results.NotFound("Paciente não encontrado!");
     }
 
-    paciente.Nome = pacienteAlterado.Nome;
+    paciente.Nome = pacienteAlterado.Nome.ToUpper();
     paciente.Cpf = pacienteAlterado.Cpf;
     paciente.Genero = pacienteAlterado.Genero;
     paciente.Telefone = pacienteAlterado.Telefone;
@@ -330,6 +331,54 @@ app.MapDelete("/hospital/deletar/medicamento/{id}", ([FromRoute] string id, [Fro
     context.SaveChanges();
 
     return Results.Ok("O medicamento foi deletado com sucesso!");
+});
+
+//ENDPOINT PARA CADASTRAR CONSULTA
+app.MapPost("hospital/consulta/agendar", ([FromBody] ConsultaRequest consultaRequest, [FromServices] AppDbContext context) =>
+{
+
+    var paciente = context.Pacientes.FirstOrDefault(p => p.Id == consultaRequest.PacienteId);
+    var medico = context.Medicos.FirstOrDefault(m => m.Id == consultaRequest.MedicoId);
+
+
+    if (paciente == null || medico == null)
+    {
+        return Results.BadRequest("Paciente ou médico não encontrados.");
+    }
+
+
+    var consulta = new Consulta
+    {
+        DataHoraConsulta = consultaRequest.DataHoraConsulta,
+        Observacoes = consultaRequest.Observacoes,
+        Paciente = paciente, 
+        Medico = medico 
+    };
+
+
+    consulta.PacienteNome = paciente.Nome;
+    consulta.MedicoNome = medico.Nome;
+
+    
+    context.Consultas.Add(consulta);
+    context.SaveChanges();
+
+    
+    return Results.Ok("Consulta agendada com sucesso!");
+});
+
+//ENDPOINT PARA BUSCAR CONSULTA
+app.MapGet("/hospital/consulta/buscar/{id}", ([FromRoute] string id,
+    [FromServices] AppDbContext context) =>
+{
+    
+    Consulta? consulta = context.Consultas.FirstOrDefault(x => x.Id == id);
+
+    if (consulta is null)
+    {
+        return Results.NotFound("Consulta não encontrada");
+    }
+    return Results.Ok(consulta);
 });
 
 app.Run();

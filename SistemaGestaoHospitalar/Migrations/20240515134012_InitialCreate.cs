@@ -5,7 +5,7 @@
 namespace SistemaGestaoHospitalar.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDatabase : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -83,6 +83,45 @@ namespace SistemaGestaoHospitalar.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Consultas",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    DataHoraConsulta = table.Column<string>(type: "TEXT", nullable: false),
+                    PacienteId = table.Column<string>(type: "TEXT", nullable: false),
+                    MedicoId = table.Column<string>(type: "TEXT", nullable: false),
+                    Observacoes = table.Column<string>(type: "TEXT", nullable: false),
+                    PacienteNome = table.Column<string>(type: "TEXT", nullable: false),
+                    MedicoNome = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Consultas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Consultas_Medicos_MedicoId",
+                        column: x => x.MedicoId,
+                        principalTable: "Medicos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Consultas_Pacientes_PacienteId",
+                        column: x => x.PacienteId,
+                        principalTable: "Pacientes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Consultas_MedicoId",
+                table: "Consultas",
+                column: "MedicoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Consultas_PacienteId",
+                table: "Consultas",
+                column: "PacienteId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Medicamentos_SetorId",
                 table: "Medicamentos",
@@ -97,6 +136,9 @@ namespace SistemaGestaoHospitalar.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Consultas");
+
             migrationBuilder.DropTable(
                 name: "Medicamentos");
 

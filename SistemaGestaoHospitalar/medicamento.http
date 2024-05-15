@@ -7,7 +7,7 @@ Content-Type: application/json
     "nome" : " Digoxina",
     "quantidadeDisponivel" : 5,
     "descricao" : "Remédio Cardíaco",
-    "setorid" : "9927b68e-24cb-4d1c-8da0-6e871041922a"
+    "setorid" : "54c7d305-f50a-4173-aa99-5338fa29e866"
 }
 
 #### Buscar medicamento
