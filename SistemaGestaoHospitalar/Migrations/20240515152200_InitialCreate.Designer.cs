@@ -10,7 +10,7 @@ using SistemaGestaoHospitalar.Models;
 namespace SistemaGestaoHospitalar.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240515134012_InitialCreate")]
+    [Migration("20240515152200_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
