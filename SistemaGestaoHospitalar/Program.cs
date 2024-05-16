@@ -436,61 +436,137 @@ app.MapDelete("/hospital/deletar/medicamento/{id}", ([FromRoute] string id, [Fro
 //ENDPOINT PARA CADASTRAR CONSULTA
 app.MapPost("hospital/consulta/agendar", ([FromBody] ConsultaRequest consultaRequest, [FromServices] AppDbContext context) =>
 {
-
     var paciente = context.Pacientes.FirstOrDefault(p => p.Id == consultaRequest.PacienteId);
     var medico = context.Medicos.FirstOrDefault(m => m.Id == consultaRequest.MedicoId);
-
 
     if (paciente == null || medico == null)
     {
         return Results.BadRequest("Paciente ou médico não encontrados.");
     }
 
+    var horarioConflitoPaciente = context.Consultas.Any(c => c.PacienteId == consultaRequest.PacienteId && c.DataHoraConsulta == consultaRequest.DataHoraConsulta);
+    var horarioConflitoMedico = context.Consultas.Any(c => c.MedicoId == consultaRequest.MedicoId && c.DataHoraConsulta == consultaRequest.DataHoraConsulta);
+
+    if (horarioConflitoPaciente)
+    {
+        return Results.BadRequest("O paciente já tem uma consulta agendada nesse horário.");
+    }
+
+    if (horarioConflitoMedico)
+    {
+        return Results.BadRequest("O médico já tem uma consulta agendada nesse horário.");
+    }
 
     var consulta = new Consulta
     {
         DataHoraConsulta = consultaRequest.DataHoraConsulta,
         Observacoes = consultaRequest.Observacoes,
-        Paciente = paciente, 
-        Medico = medico 
+        PacienteId = consultaRequest.PacienteId,
+        MedicoId = consultaRequest.MedicoId
     };
 
-
-    consulta.PacienteNome = paciente.Nome;
-    consulta.MedicoNome = medico.Nome;
-
-    
     context.Consultas.Add(consulta);
     context.SaveChanges();
 
-    
     return Results.Ok("Consulta agendada com sucesso!");
 });
 
-//ENDPOINT PARA BUSCAR CONSULTA
-app.MapGet("/hospital/consulta/buscar/{id}", ([FromRoute] string id,
-    [FromServices] AppDbContext context) =>
+// ENDPOINT PARA BUSCAR CONSULTA
+app.MapGet("/hospital/consulta/buscar/{id}", ([FromRoute] string id, [FromServices] AppDbContext context) =>
 {
     var consulta = context.Consultas
-    .Include(c => c.Paciente)
-    .Include(c => c.Medico)
-    .Where(c => c.Id == id)
-    .Select(c => new
-    {
-        c.Id,
-        c.DataHoraConsulta,
-        c.Observacoes,
-        PacienteNome = c.Paciente.Nome,
-        MedicoNome = c.Medico.Nome
-    })
-    .FirstOrDefault();
+        .Include(c => c.Paciente)
+        .Include(c => c.Medico)
+        .Where(c => c.Id == id)
+        .Select(c => new
+        {
+            c.Id,
+            c.DataHoraConsulta,
+            c.Observacoes,
+            PacienteNome = c.Paciente.Nome,
+            MedicoNome = c.Medico.Nome
+        })
+        .FirstOrDefault();
 
-if (consulta is null)
-{
-    return Results.NotFound("Consulta não encontrada");
-}
-return Results.Ok(consulta);
+    if (consulta is null)
+    {
+        return Results.NotFound("Consulta não encontrada");
+    }
+    return Results.Ok(consulta);
 });
+
+app.MapGet("/hospital/consulta/listar", ([FromServices] AppDbContext context) =>
+{
+    var consultas = context.Consultas
+        .Include(c => c.Paciente)
+        .Include(c => c.Medico)
+        .Select(c => new
+        {
+            c.Id,
+            c.DataHoraConsulta,
+            c.Observacoes,
+            PacienteNome = c.Paciente.Nome,
+            MedicoNome = c.Medico.Nome
+        })
+        .ToList();
+
+    if (!consultas.Any())
+    {
+        return Results.NotFound("Não existem consultas cadastradas");
+    }
+    return Results.Ok(consultas);
+});
+
+app.MapDelete("/hospital/consulta/deletar/{id}", ([FromRoute] string id, [FromServices] AppDbContext context) =>
+{
+    var consulta = context.Consultas.Find(id);
+
+    if (consulta is null)
+    {
+        return Results.NotFound("Consulta não encontrada");
+    }
+
+    context.Consultas.Remove(consulta);
+    context.SaveChanges();
+
+    return Results.Ok("Consulta deletada com sucesso");
+});
+
+app.MapPut("/hospital/consulta/alterar/{id}", ([FromRoute] string id, [FromBody] Consulta consultaAtualizada, [FromServices] AppDbContext context) =>
+{
+    var consultaExistente = context.Consultas.Find(id);
+
+    if (consultaExistente is null)
+    {
+        return Results.NotFound("Consulta não encontrada");
+    }
+
+    var horarioConflitoPaciente = context.Consultas.Any(c => c.PacienteId == consultaAtualizada.PacienteId && c.DataHoraConsulta == consultaAtualizada.DataHoraConsulta && c.Id != id);
+    var horarioConflitoMedico = context.Consultas.Any(c => c.MedicoId == consultaAtualizada.MedicoId && c.DataHoraConsulta == consultaAtualizada.DataHoraConsulta && c.Id != id);
+
+    if (horarioConflitoPaciente)
+    {
+        return Results.BadRequest("O paciente já tem uma consulta agendada nesse horário.");
+    }
+
+    if (horarioConflitoMedico)
+    {
+        return Results.BadRequest("O médico já tem uma consulta agendada nesse horário.");
+    }
+
+    consultaExistente.DataHoraConsulta = consultaAtualizada.DataHoraConsulta;
+    consultaExistente.Observacoes = consultaAtualizada.Observacoes;
+    consultaExistente.PacienteId = consultaAtualizada.PacienteId;
+    consultaExistente.MedicoId = consultaAtualizada.MedicoId;
+
+    context.SaveChanges();
+
+    return Results.Ok("Consulta alterada com sucesso");
+});
+
+
+
+
 
 app.Run();
 

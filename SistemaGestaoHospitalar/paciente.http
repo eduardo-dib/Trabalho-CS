@@ -4,9 +4,9 @@ POST http://localhost:5098/hospital/cadastrar/paciente
 Content-Type: application/json
 
 {
-    "nome" : "Pedro Barbosa",
-    "cpf" : "1000043450-77",
-    "genero" : "Feminino",
+    "nome" : "Lázaro",
+    "cpf" : "1000043",
+    "genero" : "Masculino",
     "telefone" : "4002-8456",
     "descricao" : "Sintomas de tuberculose"
     
