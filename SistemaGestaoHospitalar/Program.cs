@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using SistemaGestaoHospitalar.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,8 @@ app.MapGet("/", () => "Hello World!");
 
 //ENDPOINT PARA CADASTRAR PACIENTE
 app.MapPost("hospital/cadastrar/paciente", ([FromBody]Paciente paciente, [FromServices] AppDbContext context) =>{
+
+   
    Paciente? pacienteBuscado = context.Pacientes.FirstOrDefault(n => n.Cpf == paciente.Cpf);
     if (pacienteBuscado == null)
 {
@@ -206,7 +209,7 @@ app.MapDelete("/hospital/deletar/setor/{id}", ([FromRoute] string id, [FromServi
 
 //ENDPOINT PARA CADASTRAR MÉDICO
 app.MapPost("hospital/cadastrar/medico", ([FromBody]Medico medico, [FromServices] AppDbContext context) =>{
-   
+  
    Medico medicoBuscado = context.Medicos.FirstOrDefault(c => c.Crm == medico.Crm);
     if (medicoBuscado != null)
     {
@@ -458,12 +461,14 @@ app.MapPost("hospital/consulta/agendar", ([FromBody] ConsultaRequest consultaReq
     }
 
     var consulta = new Consulta
-    {
-        DataHoraConsulta = consultaRequest.DataHoraConsulta,
-        Observacoes = consultaRequest.Observacoes,
-        PacienteId = consultaRequest.PacienteId,
-        MedicoId = consultaRequest.MedicoId
-    };
+    (
+        pacienteId: consultaRequest.PacienteId,
+        pacienteNome: paciente.Nome,  // Fetch and set patient name
+        medicoId: consultaRequest.MedicoId,
+        medicoNome: medico.Nome,  // Fetch and set doctor name
+        dataHoraConsulta: consultaRequest.DataHoraConsulta,
+        observacoes: consultaRequest.Observacoes
+    );
 
     context.Consultas.Add(consulta);
     context.SaveChanges();

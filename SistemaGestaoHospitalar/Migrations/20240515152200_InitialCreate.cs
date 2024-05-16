@@ -92,8 +92,8 @@ namespace SistemaGestaoHospitalar.Migrations
                     PacienteId = table.Column<string>(type: "TEXT", nullable: false),
                     MedicoId = table.Column<string>(type: "TEXT", nullable: false),
                     Observacoes = table.Column<string>(type: "TEXT", nullable: false),
-                    PacienteNome = table.Column<string>(type: "TEXT", nullable: false),
-                    MedicoNome = table.Column<string>(type: "TEXT", nullable: false)
+                    PacienteNome = table.Column<string>(type: "TEXT", nullable: true),
+                    MedicoNome = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

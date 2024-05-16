@@ -4,10 +4,10 @@ POST http://localhost:5098/hospital/cadastrar/medico
 Content-Type: application/json
 
 {
-    "nome" : "Pedro",
+    "nome" : "Teste Médico2",
     "genero" : "Masculino",
     "especialidade" : "Cirurgião",
-    "crm" : 643423,
+    "crm" : 634456,
     "telefone" : "4002-8922",
     "descricao" : "Doutor",
     "setorId" : "82be34b3-87ae-46d9-91f0-de7ee7d6a9d9"
