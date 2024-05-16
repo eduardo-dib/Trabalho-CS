@@ -3,11 +3,28 @@ POST http://localhost:5098/hospital/consulta/agendar
 Content-Type: application/json
 
 {
-  "pacienteId": "9af2d54f-5727-4b54-bdef-29d4071554b1",
-  "medicoId": "41de3d8b-6072-4ed9-9624-568fa0676772",
+  "pacienteId": "1c83fa60-7f55-43e5-b2c8-8492d1e9b1f6",
+  "medicoId": "823369f2-be64-47cb-8ddb-0f7b39c8aa89",
   "dataHoraConsulta": "2024-05-17T14:00:00-03:00",  
   "observacoes": "Teste"
 }
 
 ###Buscar Consulta
 GET http://localhost:5098/hospital/consulta/buscar/1fa62bd4-c833-4e61-9424-e6caf0a991f7
+
+###Listar Consulta
+GET http://localhost:5098/hospital/consulta/listar
+
+###Deletar Consulta
+DELETE http://localhost:5098/hospital/consulta/deletar/1fa62bd4-c833-4e61-9424-e6caf0a991f7
+
+###Alterar Consulta
+PUT http://localhost:5098/hospital/consulta/alterar/263d0c37-a932-4b0b-b444-dffb41e99f56
+Content-Type: application/json
+
+{
+  "pacienteId": "9af2d54f-5727-4b54-bdef-29d4071554b1",
+  "medicoId": "823369f2-be64-47cb-8ddb-0f7b39c8aa89",
+  "dataHoraConsulta": "2024-05-17T14:00:00-03:00",  
+  "observacoes": "Teste"
+}
