@@ -20,19 +20,27 @@ app.MapGet("/", () => "Hello World!");
 
 
 //ENDPOINT PARA CADASTRAR PACIENTE
-app.MapPost("hospital/cadastrar/paciente", ([FromBody]Paciente paciente, [FromServices] AppDbContext context) =>{
-
-   
-   Paciente? pacienteBuscado = context.Pacientes.FirstOrDefault(n => n.Cpf == paciente.Cpf);
-    if (pacienteBuscado == null)
+app.MapPost("hospital/cadastrar/paciente", ([FromBody] Paciente paciente, [FromServices] AppDbContext context) =>
 {
 
-    paciente.Nome = paciente.Nome.ToUpper();
-    context.Pacientes.Add(paciente);
-    context.SaveChangesAsync();
-    return Results.Ok("O paciente foi cadastrado");
-}
-return Results.BadRequest("Paciente com o mesmo CPF já foi criado");
+
+    List<ValidationResult> erros = new List<ValidationResult>();
+    if (!Validator.TryValidateObject(
+            paciente, new ValidationContext(paciente), erros, true))
+    {
+        return Results.BadRequest(erros);
+    }
+
+    Paciente? pacienteBuscado = context.Pacientes.FirstOrDefault(n => n.Cpf == paciente.Cpf);
+    if (pacienteBuscado == null)
+    {
+
+        paciente.Nome = paciente.Nome.ToUpper();
+        context.Pacientes.Add(paciente);
+        context.SaveChangesAsync();
+        return Results.Ok("O paciente foi cadastrado");
+    }
+    return Results.BadRequest("Paciente com o mesmo CPF já foi criado");
 
 });
 
@@ -65,7 +73,7 @@ app.MapGet("hospital/listar/paciente", ([FromServices] AppDbContext context) =>
 //ENDPOINT PARA DELETAR PACIENTE
 app.MapDelete("/hospital/deletar/paciente/{id}", ([FromRoute] string id, [FromServices] AppDbContext context) =>
 {
-     Paciente? pacienteParaDeletar = context.Pacientes.FirstOrDefault(n => n.Id == id);
+    Paciente? pacienteParaDeletar = context.Pacientes.FirstOrDefault(n => n.Id == id);
 
     if (pacienteParaDeletar is null)
     {
@@ -78,7 +86,7 @@ app.MapDelete("/hospital/deletar/paciente/{id}", ([FromRoute] string id, [FromSe
 
 //ENDPOINT PARA ALTERAR PACIENTE
 app.MapPut("/hospital/alterar/paciente/{id}", ([FromRoute] string id, [FromBody] Paciente pacienteAlterado, [FromServices] AppDbContext context) =>
-{ 
+{
     Paciente? paciente = context.Pacientes.Find(id);
 
     if (paciente is null)
@@ -91,7 +99,7 @@ app.MapPut("/hospital/alterar/paciente/{id}", ([FromRoute] string id, [FromBody]
     paciente.Genero = pacienteAlterado.Genero;
     paciente.Telefone = pacienteAlterado.Telefone;
     paciente.Descricao = pacienteAlterado.Descricao;
-    
+
 
     context.Pacientes.Update(paciente);
     context.SaveChanges();
@@ -100,17 +108,25 @@ app.MapPut("/hospital/alterar/paciente/{id}", ([FromRoute] string id, [FromBody]
 });
 
 //ENDPOINT PARA CADASTRAR SETOR
-app.MapPost("/hospital/cadastrar/setor", ([FromBody]Setor setor, [FromServices] AppDbContext context) =>{
-   
-   Setor? setorBuscado = context.Setores.FirstOrDefault(n => n.Nome.ToUpper() == setor.Nome.ToUpper());
+app.MapPost("/hospital/cadastrar/setor", ([FromBody] Setor setor, [FromServices] AppDbContext context) =>
+{
+
+    List<ValidationResult> erros = new List<ValidationResult>();
+    if (!Validator.TryValidateObject(
+            setor, new ValidationContext(setor), erros, true))
+    {
+        return Results.BadRequest(erros);
+    }
+
+    Setor? setorBuscado = context.Setores.FirstOrDefault(n => n.Nome.ToUpper() == setor.Nome.ToUpper());
     if (setorBuscado == null)
- {
-    setor.Nome = setor.Nome.ToUpper();
-    context.Setores.Add(setor);
-    context.SaveChanges();
-    return Results.Ok("O setor foi cadastrado");
- }
-  return Results.BadRequest("Setor com o mesmo nome já criado");
+    {
+        setor.Nome = setor.Nome.ToUpper();
+        context.Setores.Add(setor);
+        context.SaveChanges();
+        return Results.Ok("O setor foi cadastrado");
+    }
+    return Results.BadRequest("Setor com o mesmo nome já criado");
 });
 
 //ENDPOINT PARA BUSCAR SETOR
@@ -146,24 +162,24 @@ app.MapGet("/hospital/buscar/setor/{id}", ([FromRoute] string id,
 //ENDPOINT PARA LISTAR SETOR
 app.MapGet("/hospital/listar/setor", ([FromServices] AppDbContext context) =>
 {
-   var setores = context.Setores
-        .Include(x => x.Medicos)
-        .Select(s => new
-        {
-            s.Id,
-            s.Nome,
-            Medicos = s.Medicos.Select(m => new
-            {
-                m.Id,
-                m.Nome,
-                m.Genero,
-                m.Especialidade,
-                m.Crm,
-                m.Telefone,
-                m.Descricao
-            }).ToList()
-        })
-        .ToList();
+    var setores = context.Setores
+         .Include(x => x.Medicos)
+         .Select(s => new
+         {
+             s.Id,
+             s.Nome,
+             Medicos = s.Medicos.Select(m => new
+             {
+                 m.Id,
+                 m.Nome,
+                 m.Genero,
+                 m.Especialidade,
+                 m.Crm,
+                 m.Telefone,
+                 m.Descricao
+             }).ToList()
+         })
+         .ToList();
 
     return Results.Ok(setores);
 });
@@ -208,14 +224,22 @@ app.MapDelete("/hospital/deletar/setor/{id}", ([FromRoute] string id, [FromServi
 });
 
 //ENDPOINT PARA CADASTRAR MÉDICO
-app.MapPost("hospital/cadastrar/medico", ([FromBody]Medico medico, [FromServices] AppDbContext context) =>{
-  
-   Medico medicoBuscado = context.Medicos.FirstOrDefault(c => c.Crm == medico.Crm);
+app.MapPost("hospital/cadastrar/medico", ([FromBody] Medico medico, [FromServices] AppDbContext context) =>
+{
+
+    List<ValidationResult> erros = new List<ValidationResult>();
+    if (!Validator.TryValidateObject(
+            medico, new ValidationContext(medico), erros, true))
+    {
+        return Results.BadRequest(erros);
+    }
+
+    Medico medicoBuscado = context.Medicos.FirstOrDefault(c => c.Crm == medico.Crm);
     if (medicoBuscado != null)
     {
         return Results.BadRequest("Médico com o mesmo CRM já cadastrado");
     }
-    
+
     // Busca o setor pelo Id (supondo que o Id do setor foi passado junto com o médico)
     Setor setor = context.Setores.Find(medico.SetorId);
     if (setor == null)
@@ -236,7 +260,7 @@ app.MapPost("hospital/cadastrar/medico", ([FromBody]Medico medico, [FromServices
 app.MapGet("/hospital/buscar/medico/{id}", ([FromRoute] string id,
     [FromServices] AppDbContext context) =>
 {
-    
+
     var medico = context.Medicos
         .Where(m => m.Id == id)
         .Include(m => m.Setor)
@@ -334,17 +358,25 @@ app.MapDelete("/hospital/deletar/medico/{id}", ([FromRoute] string id, [FromServ
 });
 
 //ENDPOINT PARA CADASTRAR MEDICAMENTO
-app.MapPost("hospital/cadastrar/medicamento", ([FromBody]Medicamento medicamento, [FromServices] AppDbContext context) =>{
-   
-   Medicamento? medicamentoBuscado = context.Medicamentos.FirstOrDefault(n => n.Nome.ToUpper() == medicamento.Nome.ToUpper());
+app.MapPost("hospital/cadastrar/medicamento", ([FromBody] Medicamento medicamento, [FromServices] AppDbContext context) =>
+{
+
+    List<ValidationResult> erros = new List<ValidationResult>();
+    if (!Validator.TryValidateObject(
+            medicamento, new ValidationContext(medicamento), erros, true))
+    {
+        return Results.BadRequest(erros);
+    }
+
+    Medicamento? medicamentoBuscado = context.Medicamentos.FirstOrDefault(n => n.Nome.ToUpper() == medicamento.Nome.ToUpper());
     if (medicamentoBuscado == null)
- {
-    medicamento.Nome = medicamento.Nome.ToUpper();
-    context.Medicamentos.Add(medicamento);
-    context.SaveChanges();
-    return Results.Ok("O Medicamento foi cadastrado");
- }
-return Results.BadRequest("Medicamento com o mesmo nome já cadastrado");
+    {
+        medicamento.Nome = medicamento.Nome.ToUpper();
+        context.Medicamentos.Add(medicamento);
+        context.SaveChanges();
+        return Results.Ok("O Medicamento foi cadastrado");
+    }
+    return Results.BadRequest("Medicamento com o mesmo nome já cadastrado");
 });
 
 //ENDPOINT PARA BUSCAR MEDICAMENTO
@@ -382,11 +414,11 @@ app.MapGet("/hospital/listar/medicamento", ([FromServices] AppDbContext context)
             .Include(m => m.Setor)
             .Select(m => new
             {
-                 m.Id,
-                 m.Nome,
-                 m.QuantidadeDisponivel,
-                 m.Descricao,
-                 SetorNome = m.Setor.Nome
+                m.Id,
+                m.Nome,
+                m.QuantidadeDisponivel,
+                m.Descricao,
+                SetorNome = m.Setor.Nome
             })
             .ToList();
 
@@ -439,6 +471,13 @@ app.MapDelete("/hospital/deletar/medicamento/{id}", ([FromRoute] string id, [Fro
 //ENDPOINT PARA CADASTRAR CONSULTA
 app.MapPost("hospital/consulta/agendar", ([FromBody] ConsultaRequest consultaRequest, [FromServices] AppDbContext context) =>
 {
+
+    List<ValidationResult> erros = new List<ValidationResult>();
+    if (!Validator.TryValidateObject(
+            consultaRequest, new ValidationContext(consultaRequest), erros, true))
+    {
+        return Results.BadRequest(erros);
+    }
     var paciente = context.Pacientes.FirstOrDefault(p => p.Id == consultaRequest.PacienteId);
     var medico = context.Medicos.FirstOrDefault(m => m.Id == consultaRequest.MedicoId);
 
