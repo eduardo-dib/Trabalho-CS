@@ -4,7 +4,7 @@ POST http://localhost:5098/hospital/cadastrar/setor
 Content-Type: application/json
 
 {
-    "nome" : "Cardiologia"
+    "nome" : "Teste"
 }
 
 #### Buscar setor
@@ -18,7 +18,7 @@ PUT http://localhost:5098/hospital/atualizar/setor/214697d8-2ce2-4777-ab8c-180fe
 Content-Type: application/json
 
 {
-    "nome" : "Pediatria"
+    "nome" : ""
 }
 
 #### Deletar setor

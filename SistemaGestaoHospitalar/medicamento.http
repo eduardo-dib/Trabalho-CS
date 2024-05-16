@@ -4,10 +4,10 @@ POST http://localhost:5098/hospital/cadastrar/medicamento
 Content-Type: application/json
 
 {
-    "nome" : " Digina",
-    "quantidadeDisponivel" : 5,
-    "descricao" : "Remédio Cardíaco",
-    "setorid" : "82be34b3-87ae-46d9-91f0-de7ee7d6a9d9"
+    "nome" : "Teste",
+    "quantidadeDisponivel" : 4,
+    "descricao" : "",
+    "setorid" : ""
 }
 
 #### Buscar medicamento
