@@ -8,6 +8,17 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+builder.Services.AddCors(
+    options =>
+    {
+        options.AddPolicy("AcessoTotal",
+            builder => builder.
+                AllowAnyOrigin().
+                AllowAnyHeader().
+                AllowAnyMethod());
+    }
+);
+
 var app = builder.Build();
 
 List<Paciente> pacientes = new List<Paciente>();
@@ -611,6 +622,6 @@ app.MapPut("/hospital/consulta/alterar/{id}", ([FromRoute] string id, [FromBody]
 
 
 
-
+app.UseCors("AcessoTotal");
 app.Run();
 

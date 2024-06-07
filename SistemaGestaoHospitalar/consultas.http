@@ -3,28 +3,28 @@ POST http://localhost:5098/hospital/consulta/agendar
 Content-Type: application/json
 
 {
-  "pacienteId": "24c78d3b-ea01-4ef8-85da-e588cdf7e868",
+  "pacienteId": "1f453b65-91a0-40e5-8a57-04dacfc4d06b",
   "medicoId": "c4d2eb96-7375-4f79-9428-cace4eb2d555",
-  "dataHoraConsulta": "ola",  
-  "observacoes": "Teste"
+  "dataHoraConsulta": "09/02 09:30",  
+  "observacoes": "Paciente com a perna fraturada"
 }
 
 ###Buscar Consulta
-GET http://localhost:5098/hospital/consulta/buscar/894795ec-2e2b-454d-bdd2-5127dd3feba8
+GET http://localhost:5098/hospital/consulta/buscar/41dd882f-242c-47e4-b4d9-679d55e3e904
 
 ###Listar Consulta
 GET http://localhost:5098/hospital/consulta/listar
 
 ###Deletar Consulta
-DELETE http://localhost:5098/hospital/consulta/deletar/894795ec-2e2b-454d-bdd2-5127dd3feba8
+DELETE http://localhost:5098/hospital/consulta/deletar/41dd882f-242c-47e4-b4d9-679d55e3e904
 
 ###Alterar Consulta
-PUT http://localhost:5098/hospital/consulta/alterar/894795ec-2e2b-454d-bdd2-5127dd3feba8
+PUT http://localhost:5098/hospital/consulta/alterar/41dd882f-242c-47e4-b4d9-679d55e3e904
 Content-Type: application/json
 
 {
-  "pacienteId": "9af2d54f-5727-4b54-bdef-29d4071554b1",
-  "medicoId": "823369f2-be64-47cb-8ddb-0f7b39c8aa89",
-  "dataHoraConsulta": "2024-05-17T14:00:00-03:00",  
-  "observacoes": "Teste"
+  "pacienteId": "1f453b65-91a0-40e5-8a57-04dacfc4d06b",
+  "medicoId": "c4d2eb96-7375-4f79-9428-cace4eb2d555",
+  "dataHoraConsulta": "07/02 09:30",  
+  "observacoes": "Paciente com a perna fraturada"
 }
