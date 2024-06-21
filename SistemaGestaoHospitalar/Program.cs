@@ -98,6 +98,8 @@ app.MapDelete("/hospital/deletar/paciente/{id}", ([FromRoute] string id, [FromSe
 //ENDPOINT PARA ALTERAR PACIENTE
 app.MapPut("/hospital/alterar/paciente/{id}", ([FromRoute] string id, [FromBody] Paciente pacienteAlterado, [FromServices] AppDbContext context) =>
 {
+
+
     Paciente? paciente = context.Pacientes.Find(id);
 
     if (paciente is null)

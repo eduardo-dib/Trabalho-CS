@@ -13,6 +13,7 @@ public class Paciente
     public string? Nome { get; set; }
     [Required(ErrorMessage = "Este campo é obrigatório!")]
     public string Cpf { get; set; }
+    
     public string? Genero { get; set; }
     public string? Telefone { get; set; }
     [Required(ErrorMessage = "Este campo é obrigatório!")]

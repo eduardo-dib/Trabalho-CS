@@ -3,10 +3,11 @@ POST http://localhost:5098/hospital/consulta/agendar
 Content-Type: application/json
 
 {
-  "pacienteId": "1f453b65-91a0-40e5-8a57-04dacfc4d06b",
-  "medicoId": "c4d2eb96-7375-4f79-9428-cace4eb2d555",
+  "pacienteId": "cdc06789-abd2-4494-bea2-e7aa992aeab5",
+  "medicoId": "747f3eb0-d735-4a0e-98ad-f45ed36be06e",
   "dataHoraConsulta": "09/02 09:30",  
-  "observacoes": "Paciente com a perna fraturada"
+  "observacoes": "Paciente com a perna fratuda"
+
 }
 
 ###Buscar Consulta
@@ -16,7 +17,7 @@ GET http://localhost:5098/hospital/consulta/buscar/41dd882f-242c-47e4-b4d9-679d5
 GET http://localhost:5098/hospital/consulta/listar
 
 ###Deletar Consulta
-DELETE http://localhost:5098/hospital/consulta/deletar/41dd882f-242c-47e4-b4d9-679d55e3e904
+DELETE http://localhost:5098/hospital/consulta/deletar/be4ddd12-06c1-4809-ae5f-00bb5aed5ae9
 
 ###Alterar Consulta
 PUT http://localhost:5098/hospital/consulta/alterar/41dd882f-242c-47e4-b4d9-679d55e3e904
