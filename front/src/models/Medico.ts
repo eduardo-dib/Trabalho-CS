@@ -1,3 +1,5 @@
+import { Setor } from "./Setor";
+
 export interface Medico {
     id: string;
     nome: string;
@@ -7,4 +9,5 @@ export interface Medico {
     telefone: string;
     descricao: string;
     setorId: string;
+    setor: Setor;
   }
