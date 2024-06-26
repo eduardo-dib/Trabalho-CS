@@ -6,6 +6,9 @@ import PacienteAlterar from "./components/pages/paciente/paciente-alterar";
 import ConsultaCadastrar from "./components/pages/consulta/consulta-cadastrar";
 import ConsultaListar from "./components/pages/consulta/consulta-listar";
 import ConsultaAlterar from "./components/pages/consulta/consulta-alterar";
+import SetorListar from "./components/pages/setor/setor-listar";
+import SetorCadastrar from "./components/pages/setor/setor-cadastrar";
+import SetorAlterar from "./components/pages/setor/setor-alterar";
 
 function App() {
   return (
@@ -27,6 +30,15 @@ function App() {
             </li>
             <li>
               <Link to ="/consulta/agendar">Agendar consulta</Link>
+            </li>
+            <li>
+              <Link to ="/setor/listar">Listar Setores</Link>
+            </li>
+            <li>
+              <Link to ="/setor/cadastrar">Cadastrar Setores</Link>
+            </li>
+            <li>
+              <Link to ="/setor/alterar">Alterar Setores</Link>
             </li>
 
           </ul>
@@ -54,7 +66,19 @@ function App() {
             path="/consulta/alterar/:id"
             element={<ConsultaAlterar />}
             />
-    
+          <Route
+            path="/setor/listar"
+            element={<SetorListar />}
+            />
+          <Route
+            path="/setor/cadastrar"
+            element={<SetorCadastrar />}
+            />
+          <Route
+            path="/setor/alterar/:id"
+            element={<SetorAlterar />}
+            />
+
         </Routes>
         <footer>
           <p>Sistema de Gestão Hospitalar</p>
