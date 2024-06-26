@@ -66,7 +66,7 @@ function MedicoListar() {
                 <button onClick={() => medico.id && deletarMedico(medico.id)}>
                   Deletar
                 </button>
-                <Link to={`/atualizar/medico/${medico.id}`}>Alterar</Link>
+                <Link to={`/medico/alterar/${medico.id}`}>Alterar</Link>
               </td>
             </tr>
           ))}

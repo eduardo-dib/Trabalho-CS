@@ -9,9 +9,12 @@ import ConsultaAlterar from "./components/pages/consulta/consulta-alterar";
 import SetorListar from "./components/pages/setor/setor-listar";
 import SetorCadastrar from "./components/pages/setor/setor-cadastrar";
 import SetorAlterar from "./components/pages/setor/setor-alterar";
-import MedicoAlterar from "./components/pages/medico/medico-alterar";
+import MedicoListar from "./components/pages/medico/medico-listar"; 
 import MedicoCadastrar from "./components/pages/medico/medico-cadastrar";
-import MedicoListar from "./components/pages/medico/medico-listar";
+import MedicoAlterar from "./components/pages/medico/medico-alterar";
+import MedicamentoListar from "./components/pages/medicamento/medicamento-listar";
+import MedicamentoCadastrar from "./components/pages/medicamento/medicamento-cadastrar";
+import MedicamentoAlterar from "./components/pages/medicamento/medicamento-alterar";
 
 function App() {
   return (
@@ -29,73 +32,48 @@ function App() {
               <Link to="/paciente/cadastrar">Cadastrar pacientes</Link>
             </li>
             <li>
-              <Link to ="/consulta/listar">Listar consultas</Link>
+              <Link to="/consulta/listar">Listar consultas</Link>
             </li>
             <li>
-              <Link to ="/consulta/agendar">Agendar consulta</Link>
+              <Link to="/consulta/agendar">Agendar consulta</Link>
             </li>
             <li>
-              <Link to ="/setor/listar">Listar Setores</Link>
+              <Link to="/setor/listar">Listar Setores</Link>
             </li>
             <li>
-              <Link to ="/setor/cadastrar">Cadastrar Setores</Link>
+              <Link to="/setor/cadastrar">Cadastrar Setor</Link>
             </li>
             <li>
-              <Link to ="/listar/medico">Listar Médicos</Link>
+              <Link to="/medico/listar">Listar Médicos</Link>
             </li>
             <li>
-              <Link to ="/cadastrar/medico">Cadastrar Médicos</Link>
+              <Link to="/medico/cadastrar">Cadastrar Médico</Link>
             </li>
-
+            <li>
+              <Link to="/medicamento/listar">Listar medicamentos</Link>
+            </li>
+            <li>
+              <Link to="/medicamento/cadastrar">Cadastrar Medicamento</Link>
+            </li>
           </ul>
         </nav>
         <Routes>
-          <Route path="/" element={<PacienteListar/>} />
+          <Route path="/" element={<PacienteListar />} />
           <Route path="/paciente/listar" element={<PacienteListar />} />
-          <Route
-            path="/paciente/cadastrar"
-            element={<PacienteCadastrar />}
-          />
-          <Route
-            path="/paciente/alterar/:id"
-            element={<PacienteAlterar />}
-          />
-          <Route
-            path="/consulta/agendar"
-            element={<ConsultaCadastrar />}
-            />
-          <Route
-          path="/consulta/listar"
-          element={<ConsultaListar />}
-          />
-          <Route
-            path="/consulta/alterar/:id"
-            element={<ConsultaAlterar />}
-            />
-          <Route
-            path="/setor/listar"
-            element={<SetorListar />}
-            />
-          <Route
-            path="/setor/cadastrar"
-            element={<SetorCadastrar />}
-            />
-          <Route
-            path="/setor/alterar/:id"
-            element={<SetorAlterar />}
-            />
-          <Route
-            path="/cadastrar/medico"
-            element={<MedicoCadastrar />}
-            />
-          <Route
-            path="/atualizar/medico/:id"
-            element={<MedicoAlterar />}
-            />
-          <Route
-            path="/listar/medico"
-            element={<MedicoListar />}
-            />
+          <Route path="/paciente/cadastrar" element={<PacienteCadastrar />} />
+          <Route path="/paciente/alterar/:id" element={<PacienteAlterar />} />
+          <Route path="/consulta/agendar" element={<ConsultaCadastrar />} />
+          <Route path="/consulta/listar" element={<ConsultaListar />} />
+          <Route path="/consulta/alterar/:id" element={<ConsultaAlterar />} />
+          <Route path="/setor/listar" element={<SetorListar />} />
+          <Route path="/setor/cadastrar" element={<SetorCadastrar />} />
+          <Route path="/setor/alterar/:id" element={<SetorAlterar />} />
+          <Route path="/medico/listar" element={<MedicoListar />} />
+          <Route path="/medico/cadastrar" element={<MedicoCadastrar />} />
+          <Route path="/medico/alterar/:id" element={<MedicoAlterar />} />
+          <Route path="/medicamento/listar" element={<MedicamentoListar />} />
+          <Route path="/medicamento/cadastrar" element={<MedicamentoCadastrar />} />
+          <Route path="/medicamento/alterar/:id" element={<MedicamentoAlterar/>} />
         </Routes>
         <footer>
           <p>Sistema de Gestão Hospitalar</p>

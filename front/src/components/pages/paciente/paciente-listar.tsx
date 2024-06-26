@@ -14,7 +14,6 @@ function PacienteListar() {
   }, []);
 
   function carregarPacientes() {
-    // FETCH ou AXIOS
     fetch("http://localhost:5098/hospital/listar/paciente")
       .then((resposta) => resposta.json())
       .then((data) => {
