@@ -9,6 +9,9 @@ import ConsultaAlterar from "./components/pages/consulta/consulta-alterar";
 import SetorListar from "./components/pages/setor/setor-listar";
 import SetorCadastrar from "./components/pages/setor/setor-cadastrar";
 import SetorAlterar from "./components/pages/setor/setor-alterar";
+import MedicoAlterar from "./components/pages/medico/medico-alterar";
+import MedicoCadastrar from "./components/pages/medico/medico-cadastrar";
+import MedicoListar from "./components/pages/medico/medico-listar";
 
 function App() {
   return (
@@ -38,7 +41,10 @@ function App() {
               <Link to ="/setor/cadastrar">Cadastrar Setores</Link>
             </li>
             <li>
-              <Link to ="/setor/alterar">Alterar Setores</Link>
+              <Link to ="/listar/medico">Listar Médicos</Link>
+            </li>
+            <li>
+              <Link to ="/cadastrar/medico">Cadastrar Médicos</Link>
             </li>
 
           </ul>
@@ -78,7 +84,18 @@ function App() {
             path="/setor/alterar/:id"
             element={<SetorAlterar />}
             />
-
+          <Route
+            path="/cadastrar/medico"
+            element={<MedicoCadastrar />}
+            />
+          <Route
+            path="/atualizar/medico/:id"
+            element={<MedicoAlterar />}
+            />
+          <Route
+            path="/listar/medico"
+            element={<MedicoListar />}
+            />
         </Routes>
         <footer>
           <p>Sistema de Gestão Hospitalar</p>
