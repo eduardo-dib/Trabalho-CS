@@ -4,6 +4,7 @@ import { Paciente } from "../../../models/Paciente";
 import { Medico } from "../../../models/Medico";
 import { Consulta } from "../../../models/Consulta";
 import { useParams, useNavigate } from "react-router-dom";
+import "./consulta.css";
 
 function formatDateToCustomFormat(dateString: string): string {
   const date = new Date(dateString);
@@ -25,13 +26,12 @@ function ConsultaAlterar() {
   const [medicos, setMedicos] = useState<Medico[]>([]);
 
   useEffect(() => {
- 
     if (id) {
       axios
         .get<Consulta>(`http://localhost:5098/hospital/consulta/buscar/${id}`)
         .then((resposta) => {
           const consulta = resposta.data;
-          setDataHoraConsulta(new Date(consulta.dataHoraConsulta).toISOString().slice(0, 16)); 
+          setDataHoraConsulta(new Date(consulta.dataHoraConsulta).toISOString().slice(0, 16));
           setPacienteId(consulta.pacienteId);
           setMedicoId(consulta.medicoId);
           setObservacoes(consulta.observacoes);
@@ -39,11 +39,10 @@ function ConsultaAlterar() {
         .catch((error) => console.error("Erro ao carregar consulta", error));
     }
 
-
     axios.get("http://localhost:5098/hospital/listar/paciente")
       .then((response) => setPacientes(response.data))
       .catch((error) => console.error("Erro ao carregar pacientes", error));
-    
+
     axios.get("http://localhost:5098/hospital/listar/medico")
       .then((response) => setMedicos(response.data))
       .catch((error) => console.error("Erro ao carregar médicos", error));
@@ -73,45 +72,66 @@ function ConsultaAlterar() {
   }
 
   return (
-    <div>
-      <h1>Alterar Consulta</h1>
-      <form onSubmit={salvar}>
-        <label>Data e Hora:</label>
-        <input
-          type="datetime-local"
-          value={dataHoraConsulta}
-          onChange={(e) => setDataHoraConsulta(e.target.value)}
-          required
-        />{" "}
-        <br />
-        <label>Paciente:</label>
-        <select value={pacienteId} onChange={(e) => setPacienteId(e.target.value)} required>
-          <option value="">Selecione um paciente</option>
-          {pacientes.map((paciente) => (
-            <option key={paciente.id} value={paciente.id}>
-              {paciente.nome}
-            </option>
-          ))}
-        </select>{" "}
-        <br />
-        <label>Médico:</label>
-        <select value={medicoId} onChange={(e) => setMedicoId(e.target.value)} required>
-          <option value="">Selecione um médico</option>
-          {medicos.map((medico) => (
-            <option key={medico.id} value={medico.id}>
-              {medico.nome}
-            </option>
-          ))}
-        </select>{" "}
-        <br />
-        <label>Observações:</label>
-        <textarea
-          value={observacoes}
-          onChange={(e) => setObservacoes(e.target.value)}
-        />{" "}
-        <br />
-        <button type="submit">Salvar</button>
-      </form>
+    <div className="container">
+      <div className="form-container">
+        <h1>Alterar Consulta</h1>
+        <form onSubmit={salvar}>
+          <div className="mb-3">
+            <label className="form-label">Data e Hora:</label>
+            <input
+              type="datetime-local"
+              className="form-control"
+              value={dataHoraConsulta}
+              onChange={(e) => setDataHoraConsulta(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Paciente:</label>
+            <select
+              className="form-select"
+              value={pacienteId}
+              onChange={(e) => setPacienteId(e.target.value)}
+              required
+            >
+              <option value="">Selecione um paciente</option>
+              {pacientes.map((paciente) => (
+                <option key={paciente.id} value={paciente.id}>
+                  {paciente.nome}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Médico:</label>
+            <select
+              className="form-select"
+              value={medicoId}
+              onChange={(e) => setMedicoId(e.target.value)}
+              required
+            >
+              <option value="">Selecione um médico</option>
+              {medicos.map((medico) => (
+                <option key={medico.id} value={medico.id}>
+                  {medico.nome}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Observações:</label>
+            <textarea
+              className="form-control"
+              value={observacoes}
+              onChange={(e) => setObservacoes(e.target.value)}
+              rows={3}
+            />
+          </div>
+          <button type="submit" className="btn btn-success w-100">
+            Salvar
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

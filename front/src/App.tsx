@@ -9,16 +9,17 @@ import ConsultaAlterar from "./components/pages/consulta/consulta-alterar";
 import SetorListar from "./components/pages/setor/setor-listar";
 import SetorCadastrar from "./components/pages/setor/setor-cadastrar";
 import SetorAlterar from "./components/pages/setor/setor-alterar";
-import MedicoListar from "./components/pages/medico/medico-listar"; 
+import MedicoListar from "./components/pages/medico/medico-listar";
 import MedicoCadastrar from "./components/pages/medico/medico-cadastrar";
 import MedicoAlterar from "./components/pages/medico/medico-alterar";
 import MedicamentoListar from "./components/pages/medicamento/medicamento-listar";
 import MedicamentoCadastrar from "./components/pages/medicamento/medicamento-cadastrar";
 import MedicamentoAlterar from "./components/pages/medicamento/medicamento-alterar";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
+const App = () => {
   return (
-    <div>
+    <div style={{ backgroundColor: "lightblue", padding: "10px", marginLeft: "0px" }}>
       <BrowserRouter>
         <nav>
           <ul>
@@ -75,8 +76,8 @@ function App() {
           <Route path="/medicamento/cadastrar" element={<MedicamentoCadastrar />} />
           <Route path="/medicamento/alterar/:id" element={<MedicamentoAlterar/>} />
         </Routes>
-        <footer>
-          <p>Sistema de Gestão Hospitalar</p>
+        <footer style={{ textAlign: "center", marginTop: "0px" }}>
+          <p style={{ backgroundColor: "white", padding: "10px", borderRadius: "8px" }}>Sistema de Gestão Hospitalar - DAVI ALVES, EDUARDO CARDOSO, GUSTAVO GIROTTO</p>
         </footer>
       </BrowserRouter>
     </div>

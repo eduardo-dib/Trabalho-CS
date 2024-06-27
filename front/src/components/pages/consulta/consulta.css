@@ -1,0 +1,27 @@
+.container {
+    margin-top: 20px;
+}
+
+.form-container {
+    background-color: rgb(64, 64, 171);
+    border: 1px solid #2722a7;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-control, .form-select {
+    margin-bottom: 10px;
+}
+
+.btn-primary, .btn-success, .btn-danger {
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover, .btn-success:hover, .btn-danger:hover {
+    background-color: darken(#0d6efd, 10%);
+}
+  

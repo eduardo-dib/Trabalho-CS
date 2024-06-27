@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Medico } from "../../../models/Medico";
 import { Link } from "react-router-dom";
+import "./medico.css";
 
 function MedicoListar() {
   const [medicos, setMedicos] = useState<Medico[]>([]);
@@ -35,7 +36,7 @@ function MedicoListar() {
   }
 
   return (
-    <div>
+    <div className="table-container">
       <h1>Listar Médicos</h1>
       <table>
         <thead>
@@ -62,11 +63,11 @@ function MedicoListar() {
               <td>{medico.telefone}</td>
               <td>{medico.descricao}</td>
               <td>{medico.setorNome}</td>
-              <td>
-                <button onClick={() => medico.id && deletarMedico(medico.id)}>
+              <td className="actions">
+                <button className="delete" onClick={() => medico.id && deletarMedico(medico.id)}>
                   Deletar
                 </button>
-                <Link to={`/medico/alterar/${medico.id}`}>Alterar</Link>
+                <Link className="edit" to={`/medico/alterar/${medico.id}`}>Alterar</Link>
               </td>
             </tr>
           ))}

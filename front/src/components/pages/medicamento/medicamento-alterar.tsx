@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { Setor } from "../../../models/Setor";
 import { Medicamento } from "../../../models/Medicamento";
+import "./medicamento.css";
 
 function MedicamentoAlterar() {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ function MedicamentoAlterar() {
   }
 
   return (
-    <div>
+    <div className="container">
       <h1>Alterar Medicamento</h1>
       {mensagem && <p>{mensagem}</p>}
       <form onSubmit={alterar}>
@@ -71,7 +72,6 @@ function MedicamentoAlterar() {
           onChange={(e) => setNome(e.target.value)}
           required
         />
-        <br />
         <label>Quantidade Disponível:</label>
         <input
           type="number"
@@ -79,7 +79,6 @@ function MedicamentoAlterar() {
           onChange={(e) => setQuantidadeDisponivel(Number(e.target.value))}
           required
         />
-        <br />
         <label>Descrição:</label>
         <input
           type="text"
@@ -87,7 +86,6 @@ function MedicamentoAlterar() {
           onChange={(e) => setDescricao(e.target.value)}
           required
         />
-        <br />
         <label>Setor:</label>
         <select
           value={setorId}
@@ -101,7 +99,6 @@ function MedicamentoAlterar() {
             </option>
           ))}
         </select>
-        <br />
         <button type="submit">Salvar Alterações</button>
       </form>
     </div>

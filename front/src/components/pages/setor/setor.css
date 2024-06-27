@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #2980b9;
+}
+
+.form-container {
+  background-color: #3498db;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.form-container input[type="text"] {
+  width: calc(100% - 20px);
+  padding: 8px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 4px;
+}
+
+.form-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #2ecc71;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #27ae60;
+}
+
+.table {
+  width: 80%;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+
+.table th,
+.table td {
+  text-align: center;
+  padding: 10px;
+}
+
+.table th {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.table td {
+  background-color: #ecf0f1;
+}
+
+.botao-grupo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.botao {
+  margin: 5px;
+  width: 100px;
+  border-radius: 4px;
+}
+
+.botao.botao-sucesso {
+  background-color: #2ecc71;
+}
+
+.botao.botao-sucesso:hover {
+  background-color: #27ae60;
+}
+
+.botao.botao-danger {
+  background-color: #e74c3c;
+}
+
+.botao.botao-danger:hover {
+  background-color: #c0392b;
+}
