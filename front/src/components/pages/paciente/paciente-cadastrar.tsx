@@ -1,130 +1,78 @@
 import React, { useState } from "react";
-import { Paciente } from "../../../models/Paciente";
+import axios from "axios";
+import "./paciente.css";
 
 function PacienteCadastrar() {
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
-  const [genero, setGenero] = useState("");
   const [telefone, setTelefone] = useState("");
-  const [descricao, setDescricao] = useState("");
-  const [sucesso, setSucesso] = useState(false);
-
-  function formatarCPF(cpf: string): string {
-    return cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4");
-  }
-
-  function handleChangeCPF(e: React.ChangeEvent<HTMLInputElement>) {
-    const valor = e.target.value.replace(/\D/g, ""); 
-    const cpfFormatado = formatarCPF(valor);
-    setCpf(cpfFormatado);
-  }
-
-  function formatarTelefone(telefone: string): string {
-    const valor = telefone.replace(/\D/g, ""); 
-    const match = valor.match(/^(\d{2})(\d{5})(\d{4})$/);
-    if (match) {
-      return `(${match[1]}) ${match[2]}-${match[3]}`;
-    }
-    return telefone;
-  }
-
-  function handleChangeTelefone(e: React.ChangeEvent<HTMLInputElement>) {
-    const valor = e.target.value;
-    const telefoneFormatado = formatarTelefone(valor);
-    setTelefone(telefoneFormatado);
-  }
+  const [mensagem, setMensagem] = useState("");
 
   function cadastrar(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const paciente: Paciente = {
-      nome: nome,
-      cpf: cpf.replace(/\D/g, ""), 
-      genero: genero,
-      telefone: telefone.replace(/\D/g, ""), 
-      descricao: descricao,
+
+    const paciente = {
+      nome,
+      cpf,
+      telefone,
     };
 
-    fetch("http://localhost:5098/hospital/cadastrar/paciente", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(paciente),
-    })
-      .then((resposta) => resposta.json())
-      .then((pacienteCadastrado: Paciente) => {
-        console.log(pacienteCadastrado);
-        setSucesso(true);
-        setTimeout(() => {
-          setSucesso(false);
-        }, 3000); 
-      
+    axios
+      .post("http://localhost:5098/hospital/paciente/cadastrar", paciente)
+      .then((response) => {
+        console.log("Paciente cadastrado com sucesso", response.data);
+        setMensagem("Paciente cadastrado com sucesso!");
         setNome("");
         setCpf("");
-        setGenero("");
         setTelefone("");
-        setDescricao("");
       })
       .catch((error) => {
-        console.error("Erro ao cadastrar paciente:", error);
+        console.error("Erro ao cadastrar paciente", error);
+        setMensagem("Erro ao cadastrar paciente. Verifique os dados e tente novamente.");
       });
   }
 
   return (
-    <div>
-      <h1>Cadastrar Paciente</h1>
-      {sucesso && <p>Paciente cadastrado com sucesso!</p>}
-      <form onSubmit={cadastrar}>
-        <label>Nome:</label>
-        <input
-          type="text"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          required 
-        />{" "}
-        <br />
-        <label>CPF:</label>
-        <input
-          type="text"
-          value={cpf}
-          onChange={handleChangeCPF}
-          maxLength={14}
-          placeholder="xxx.xxx.xxx-xx"
-          required 
-        />{" "}
-        <br />
-        <label>Gênero:</label>
-        <select
-          value={genero}
-          onChange={(e) => setGenero(e.target.value)}
-          required 
-        >
-          <option value="">Selecione</option>
-          <option value="Masculino">Masculino</option>
-          <option value="Feminino">Feminino</option>
-          <option value="Prefiro não informar">Prefiro não informar</option>
-        </select>{" "}
-        <br />
-        <label>Telefone:</label>
-        <input
-          type="text"
-          value={telefone}
-          onChange={handleChangeTelefone}
-          maxLength={14}
-          placeholder="(xx) xxxxx-xxxx"
-          required 
-        />{" "}
-        <br />
-        <label>Descrição:</label>
-        <input
-          type="text"
-          value={descricao}
-          onChange={(e) => setDescricao(e.target.value)}
-          required 
-        />{" "}
-        <br />
-        <button type="submit">Cadastrar</button>
-      </form>
+    <div className="container">
+      <div className="form-container">
+        <h1>Cadastrar Paciente</h1>
+        {mensagem && <p className="alert alert-info">{mensagem}</p>}
+        <form onSubmit={cadastrar}>
+          <div className="mb-3">
+            <label className="form-label">Nome:</label>
+            <input
+              type="text"
+              className="form-control"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">CPF:</label>
+            <input
+              type="text"
+              className="form-control"
+              value={cpf}
+              onChange={(e) => setCpf(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Telefone:</label>
+            <input
+              type="text"
+              className="form-control"
+              value={telefone}
+              onChange={(e) => setTelefone(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-primary w-100">
+            Cadastrar
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

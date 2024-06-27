@@ -3,6 +3,7 @@ import axios from "axios";
 import { Paciente } from "../../../models/Paciente";
 import { Medico } from "../../../models/Medico";
 import { Consulta } from "../../../models/Consulta";
+import "./consulta.css";
 
 function formatDateToCustomFormat(dateString: string): string {
   const date = new Date(dateString);
@@ -41,8 +42,8 @@ function ConsultaCadastrar() {
       pacienteId,
       medicoId,
       observacoes,
-      pacienteNome: "", 
-      medicoNome: "", 
+      pacienteNome: "",
+      medicoNome: "",
     };
 
     axios
@@ -50,7 +51,6 @@ function ConsultaCadastrar() {
       .then((response) => {
         console.log("Consulta cadastrada com sucesso", response.data);
         setMensagem("Consulta cadastrada com sucesso!");
-        // Limpar os campos após o cadastro
         setDataHoraConsulta("");
         setPacienteId("");
         setMedicoId("");
@@ -63,54 +63,67 @@ function ConsultaCadastrar() {
   }
 
   return (
-    <div>
-      <h1>Cadastrar Consulta</h1>
-      {mensagem && <p>{mensagem}</p>}
-      <form onSubmit={cadastrar}>
-        <label>Data e Hora:</label>
-        <input
-          type="datetime-local"
-          value={dataHoraConsulta}
-          onChange={(e) => setDataHoraConsulta(e.target.value)}
-          required
-        />{" "}
-        <br />
-        <label>Paciente:</label>
-        <select
-          value={pacienteId}
-          onChange={(e) => setPacienteId(e.target.value)}
-          required
-        >
-          <option value="">Selecione um paciente</option>
-          {pacientes.map((paciente) => (
-            <option key={paciente.id} value={paciente.id}>
-              {paciente.nome}
-            </option>
-          ))}
-        </select>{" "}
-        <br />
-        <label>Médico:</label>
-        <select
-          value={medicoId}
-          onChange={(e) => setMedicoId(e.target.value)}
-          required
-        >
-          <option value="">Selecione um médico</option>
-          {medicos.map((medico) => (
-            <option key={medico.id} value={medico.id}>
-              {medico.nome}
-            </option>
-          ))}
-        </select>{" "}
-        <br />
-        <label>Observações:</label>
-        <textarea
-          value={observacoes}
-          onChange={(e) => setObservacoes(e.target.value)}
-        />{" "}
-        <br />
-        <button type="submit">Cadastrar</button>
-      </form>
+    <div className="container">
+      <div className="form-container">
+        <h1>Cadastrar Consulta</h1>
+        {mensagem && <p className="alert alert-info">{mensagem}</p>}
+        <form onSubmit={cadastrar}>
+          <div className="mb-3">
+            <label className="form-label">Data e Hora:</label>
+            <input
+              type="datetime-local"
+              className="form-control"
+              value={dataHoraConsulta}
+              onChange={(e) => setDataHoraConsulta(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Paciente:</label>
+            <select
+              className="form-select"
+              value={pacienteId}
+              onChange={(e) => setPacienteId(e.target.value)}
+              required
+            >
+              <option value="">Selecione um paciente</option>
+              {pacientes.map((paciente) => (
+                <option key={paciente.id} value={paciente.id}>
+                  {paciente.nome}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Médico:</label>
+            <select
+              className="form-select"
+              value={medicoId}
+              onChange={(e) => setMedicoId(e.target.value)}
+              required
+            >
+              <option value="">Selecione um médico</option>
+              {medicos.map((medico) => (
+                <option key={medico.id} value={medico.id}>
+                  {medico.nome}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Observações:</label>
+            <textarea
+              className="form-control"
+              value={observacoes}
+              onChange={(e) => setObservacoes(e.target.value)}
+              rows={3}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary w-100">
+            Cadastrar
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

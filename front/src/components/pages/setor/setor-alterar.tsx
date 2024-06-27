@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./setor.css";
 
 interface Setor {
   id?: string;
@@ -48,20 +49,22 @@ function SetorAlterar() {
   }
 
   return (
-    <div>
-      <h1>Alterar Setor</h1>
-      {sucesso && <p>Setor alterado com sucesso!</p>}
-      <form onSubmit={salvar}>
-        <label>Nome do Setor:</label>
-        <input
-          type="text"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          required
-        />{" "}
-        <br />
-        <button type="submit">Salvar</button>
-      </form>
+    <div className="container">
+      <div className="form-container">
+        <h1>Alterar Setor</h1>
+        {sucesso && <p>Setor alterado com sucesso!</p>}
+        <form onSubmit={salvar}>
+          <label>Nome do Setor:</label>
+          <input
+            type="text"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            required
+          />{" "}
+          <br />
+          <button type="submit" className="botao botato-sucesso">Salvar</button>
+        </form>
+      </div>
     </div>
   );
 }

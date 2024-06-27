@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Paciente } from "../../../models/Paciente";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./paciente.css";
 
 function PacienteAlterar() {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ function PacienteAlterar() {
         setSucesso(true);
         setTimeout(() => {
           setSucesso(false);
-        }, 3000); // 3 segundos
+        }, 3000);
         navigate("/paciente/listar");
       })
       .catch((error) => {
@@ -81,59 +82,67 @@ function PacienteAlterar() {
   }
 
   return (
-    <div>
+    <div className="container form-container">
       <h1>Alterar Paciente</h1>
-      {sucesso && <p>Paciente alterado com sucesso!</p>}
+      {sucesso && <p className="alert alert-success">Paciente alterado com sucesso!</p>}
       <form onSubmit={salvar}>
-        <label>Nome:</label>
-        <input
-          type="text"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          required
-        />{" "}
-        <br />
-        <label>CPF:</label>
-        <input
-          type="text"
-          value={cpf}
-          onChange={handleChangeCPF}
-          maxLength={14}
-          placeholder="xxx.xxx.xxx-xx"
-          required
-        />{" "}
-        <br />
-        <label>Gênero:</label>
-        <select
-          value={genero}
-          onChange={(e) => setGenero(e.target.value)}
-          required
-        >
-          <option value="">Selecione</option>
-          <option value="Masculino">Masculino</option>
-          <option value="Feminino">Feminino</option>
-          <option value="Outro">Outro</option>
-        </select>{" "}
-        <br />
-        <label>Telefone:</label>
-        <input
-          type="text"
-          value={telefone}
-          onChange={handleChangeTelefone}
-          maxLength={14}
-          placeholder="(xx) xxxxx-xxxx"
-          required
-        />{" "}
-        <br />
-        <label>Descrição:</label>
-        <input
-          type="text"
-          value={descricao}
-          onChange={(e) => setDescricao(e.target.value)}
-          required
-        />{" "}
-        <br />
-        <button type="submit">Salvar</button>
+        <div className="form-group">
+          <label>Nome:</label>
+          <input
+            type="text"
+            className="form-control"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>CPF:</label>
+          <input
+            type="text"
+            className="form-control"
+            value={cpf}
+            onChange={handleChangeCPF}
+            maxLength={14}
+            placeholder="xxx.xxx.xxx-xx"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Gênero:</label>
+          <select
+            className="form-control"
+            value={genero}
+            onChange={(e) => setGenero(e.target.value)}
+            required
+          >
+            <option value="">Selecione</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Telefone:</label>
+          <input
+            type="text"
+            className="form-control"
+            value={telefone}
+            onChange={handleChangeTelefone}
+            maxLength={14}
+            placeholder="(xx) xxxxx-xxxx"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Descrição:</label>
+          <textarea
+            className="form-control"
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">Salvar</button>
       </form>
     </div>
   );

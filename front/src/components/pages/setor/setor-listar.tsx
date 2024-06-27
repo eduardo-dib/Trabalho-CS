@@ -1,51 +1,41 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Setor } from "../../../models/Setor";
-import { Medico } from "../../../models/Medico";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
-
+import "./setor.css";
 
 function SetorListar() {
-  const [Setor, setSetor] = useState<Setor[]>([]);
+  const [setores, setSetores] = useState<Setor[]>([]);
 
   useEffect(() => {
-    console.log("Executar algo ao carregar o componente...");
-    carregarSetor();
+    carregarSetores();
   }, []);
 
-  function carregarSetor() {
-    // FETCH ou AXIOS
-    fetch("http://localhost:5098/hospital/listar/setor")
-      .then((resposta) => resposta.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setSetor(data);
-          console.table(data);
-        } else {
-          console.error("Este tipo de informação não é um array", data);
-        }
+  function carregarSetores() {
+    axios
+      .get<Setor[]>("http://localhost:5098/hospital/listar/setor")
+      .then((response) => {
+        setSetores(response.data);
       })
-      .catch((erro) => {
-        console.log("Deu erro!", erro);
+      .catch((error) => {
+        console.error("Erro ao carregar setores:", error);
       });
   }
 
-  function deletar(id: string): void {
-    console.log(`http://localhost:5098/${id}`);
+  function deletarSetor(id: string) {
     axios
       .delete(`http://localhost:5098/hospital/deletar/setor/${id}`)
       .then(() => {
-        carregarSetor();
+        carregarSetores();
       })
-      .catch((erro) => {
-        console.log("Erro ao deletar!", erro);
+      .catch((error) => {
+        console.error("Erro ao deletar setor:", error);
       });
   }
 
   return (
-    <div>
-      <table>
+    <div className="container">
+      <table className="table">
         <thead>
           <tr>
             <th>ID</th>
@@ -54,13 +44,26 @@ function SetorListar() {
           </tr>
         </thead>
         <tbody>
-          {Setor.map((setor) => (
+          {setores.map((setor) => (
             <tr key={setor.id}>
               <td>{setor.id}</td>
               <td>{setor.nome}</td>
               <td>
-                <button onClick={() => setor.id && deletar(setor.id)}>Deletar</button>
-                <Link to={`/setor/alterar/${setor.id}`}>Alterar</Link>
+                <div className="botao-grupo">
+                  <Link
+                    to={`/setor/alterar/${setor.id}`}
+                    className="botao botao-sucesso"
+                  >
+                    Alterar
+                  </Link>
+                  <button
+                    type="button"
+                    className="botao botao-danger"
+                    onClick={() => deletarSetor(setor.id!)}
+                  >
+                    Deletar
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
@@ -68,7 +71,6 @@ function SetorListar() {
       </table>
     </div>
   );
-
 }
 
 export default SetorListar;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Setor } from "../../../models/Setor";
 import { Medico } from "../../../models/Medico";
+import "./medico.css";
 
 function MedicoCadastrar() {
   const [nome, setNome] = useState("");
@@ -78,7 +79,7 @@ function MedicoCadastrar() {
   }
 
   return (
-    <div>
+    <div className="container">
       <h1>Cadastrar Médico</h1>
       {mensagem && <p>{mensagem}</p>}
       <form onSubmit={cadastrar}>
@@ -88,8 +89,7 @@ function MedicoCadastrar() {
           value={nome}
           onChange={(e) => setNome(e.target.value)}
           required
-        />{" "}
-        <br />
+        />
         <label>Gênero:</label>
         <select
           value={genero}
@@ -100,16 +100,14 @@ function MedicoCadastrar() {
           <option value="Masculino">Masculino</option>
           <option value="Feminino">Feminino</option>
           <option value="Outro">Outro</option>
-        </select>{" "}
-        <br />
+        </select>
         <label>Especialidade:</label>
         <input
           type="text"
           value={especialidade}
           onChange={(e) => setEspecialidade(e.target.value)}
           required
-        />{" "}
-        <br />
+        />
         <label>CRM:</label>
         <input
           type="text"
@@ -117,8 +115,7 @@ function MedicoCadastrar() {
           onChange={handleChangeCRM}
           maxLength={6}
           required
-        />{" "}
-        <br />
+        />
         <label>Telefone:</label>
         <input
           type="text"
@@ -126,15 +123,12 @@ function MedicoCadastrar() {
           onChange={handleChangeTelefone}
           maxLength={14}
           required
-        />{" "}
-        <br />
+        />
         <label>Descrição:</label>
-        <input
-          type="text"
+        <textarea
           value={descricao}
           onChange={(e) => setDescricao(e.target.value)}
-        />{" "}
-        <br />
+        />
         <label>Setor:</label>
         <select
           value={setorId}
@@ -147,8 +141,7 @@ function MedicoCadastrar() {
               {setor.nome}
             </option>
           ))}
-        </select>{" "}
-        <br />
+        </select>
         <button type="submit">Cadastrar</button>
       </form>
     </div>

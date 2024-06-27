@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { Medico } from "../../../models/Medico";
 import { Setor } from "../../../models/Setor";
+import "./medico.css";
 
 function MedicoAlterar() {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ function MedicoAlterar() {
   }
 
   return (
-    <div>
+    <div className="container">
       <h1>Alterar Médico</h1>
       <form onSubmit={salvar}>
         <label>Nome:</label>
@@ -72,8 +73,7 @@ function MedicoAlterar() {
           value={nome}
           onChange={(e) => setNome(e.target.value)}
           required
-        />{" "}
-        <br />
+        />
         <label>Gênero:</label>
         <select
           value={genero}
@@ -84,16 +84,14 @@ function MedicoAlterar() {
           <option value="Masculino">Masculino</option>
           <option value="Feminino">Feminino</option>
           <option value="Outro">Outro</option>
-        </select>{" "}
-        <br />
+        </select>
         <label>Especialidade:</label>
         <input
           type="text"
           value={especialidade}
           onChange={(e) => setEspecialidade(e.target.value)}
           required
-        />{" "}
-        <br />
+        />
         <label>CRM:</label>
         <input
           type="text"
@@ -101,8 +99,7 @@ function MedicoAlterar() {
           onChange={(e) => setCrm(e.target.value.replace(/\D/g, "").substring(0, 6))}
           maxLength={6}
           required
-        />{" "}
-        <br />
+        />
         <label>Telefone:</label>
         <input
           type="text"
@@ -110,15 +107,12 @@ function MedicoAlterar() {
           onChange={(e) => setTelefone(e.target.value)}
           maxLength={14}
           required
-        />{" "}
-        <br />
+        />
         <label>Descrição:</label>
-        <input
-          type="text"
+        <textarea
           value={descricao}
           onChange={(e) => setDescricao(e.target.value)}
-        />{" "}
-        <br />
+        />
         <label>Setor:</label>
         <select
           value={setorId}
@@ -131,8 +125,7 @@ function MedicoAlterar() {
               {setor.nome}
             </option>
           ))}
-        </select>{" "}
-        <br />
+        </select>
         <button type="submit">Salvar</button>
       </form>
     </div>

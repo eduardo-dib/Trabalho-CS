@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Setor } from "../../../models/Setor";
+import "./medicamento.css";
 
 function MedicamentoCadastrar() {
   const [nome, setNome] = useState("");
@@ -46,7 +46,7 @@ function MedicamentoCadastrar() {
   }
 
   return (
-    <div>
+    <div className="container">
       <h1>Cadastrar Medicamento</h1>
       {mensagem && <p>{mensagem}</p>}
       <form onSubmit={cadastrar}>
@@ -57,7 +57,6 @@ function MedicamentoCadastrar() {
           onChange={(e) => setNome(e.target.value)}
           required
         />
-        <br />
         <label>Quantidade Disponível:</label>
         <input
           type="number"
@@ -65,7 +64,6 @@ function MedicamentoCadastrar() {
           onChange={(e) => setQuantidadeDisponivel(e.target.value)}
           required
         />
-        <br />
         <label>Descrição:</label>
         <input
           type="text"
@@ -73,7 +71,6 @@ function MedicamentoCadastrar() {
           onChange={(e) => setDescricao(e.target.value)}
           required
         />
-        <br />
         <label>Setor:</label>
         <select
           value={setorId}
@@ -87,7 +84,6 @@ function MedicamentoCadastrar() {
             </option>
           ))}
         </select>
-        <br />
         <button type="submit">Cadastrar</button>
       </form>
     </div>

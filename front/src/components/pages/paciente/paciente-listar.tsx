@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import { Paciente } from "../../../models/Paciente";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
-
+import "./paciente.css";
 
 function PacienteListar() {
   const [pacientes, setPacientes] = useState<Paciente[]>([]);
 
   useEffect(() => {
-    console.log("Executar algo ao carregar o componente...");
     carregarPacientes();
   }, []);
 
@@ -19,38 +17,36 @@ function PacienteListar() {
       .then((data) => {
         if (Array.isArray(data)) {
           setPacientes(data);
-          console.table(data);
         } else {
           console.error("Este tipo de informação não é um array", data);
         }
       })
       .catch((erro) => {
-        console.log("Deu erro!", erro);
+        console.log("Erro ao carregar pacientes!", erro);
       });
   }
 
   function deletar(id: string): void {
-    console.log(`http://localhost:5098/${id}`);
     axios
       .delete(`http://localhost:5098/hospital/deletar/paciente/${id}`)
       .then(() => {
         carregarPacientes();
       })
       .catch((erro) => {
-        console.log("Erro ao deletar!", erro);
+        console.log("Erro ao deletar paciente!", erro);
       });
   }
 
   return (
-    <div>
+    <div className="container">
       <h1>Listar Pacientes</h1>
-      <table>
-        <thead>
+      <table className="table table-bordered">
+        <thead className="thead-dark">
           <tr>
             <th>ID</th>
             <th>Nome</th>
-            <th>Cpf</th>
-            <th>Genero</th>
+            <th>CPF</th>
+            <th>Gênero</th>
             <th>Telefone</th>
             <th>Descrição</th>
             <th>Ações</th>
@@ -65,14 +61,13 @@ function PacienteListar() {
               <td>{paciente.genero}</td>
               <td>{paciente.telefone}</td>
               <td>{paciente.descricao}</td>
-              <td>
+              <td className="d-flex justify-content-between">
                 <button 
+                  className="btn btn-danger"
                   onClick={() => paciente.id && deletar(paciente.id)}>
                   Deletar
                 </button>
-              </td>
-              <td>
-                <Link to={`/paciente/alterar/${paciente.id}`}>Alterar</Link>
+                <Link className="btn btn-success ml-2" to={`/paciente/alterar/${paciente.id}`}>Alterar</Link>
               </td>
             </tr>
           ))}
