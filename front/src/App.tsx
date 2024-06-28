@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import PacienteListar from "./components/pages/paciente/paciente-listar";
 import PacienteCadastrar from "./components/pages/paciente/paciente-cadastrar";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import PacienteAlterar from "./components/pages/paciente/paciente-alterar";
 import ConsultaCadastrar from "./components/pages/consulta/consulta-cadastrar";
 import ConsultaListar from "./components/pages/consulta/consulta-listar";
@@ -16,45 +16,80 @@ import MedicamentoListar from "./components/pages/medicamento/medicamento-listar
 import MedicamentoCadastrar from "./components/pages/medicamento/medicamento-cadastrar";
 import MedicamentoAlterar from "./components/pages/medicamento/medicamento-alterar";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./App.css";
 
 const App = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const containerStyle: React.CSSProperties = {
+    maxWidth: "600px",
+    margin: "0 auto",
+    padding: "20px",
+    backgroundColor: "#f8f9fa",
+    border: "1px solid #dee2e6",
+    borderRadius: "5px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+  };
+
+  const footerStyle: React.CSSProperties = {
+    textAlign: "center" as const,
+    marginTop: "20px",
+    padding: "10px",
+    backgroundColor: "#f8f9fa",
+    border: "1px solid #dee2e6",
+    borderRadius: "5px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+  };
+
   return (
-    <div style={{ backgroundColor: "lightblue", padding: "10px", marginLeft: "0px" }}>
+    <div style={containerStyle}>
       <BrowserRouter>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
+        <nav className="navbar">
+          <div className="navbar-brand">Sistema de Gestão Hospitalar</div>
+          <div className="navbar-toggle" id="navbarToggle" onClick={toggleMenu}>
+            &#9776;
+          </div>
+          <ul className={`navbar-menu ${isMenuOpen ? "show" : ""}`} id="navbarMenu">
+            <li><Link to="/">Home</Link></li>
+            <li className="dropdown">
+              <a href="#">Pacientes</a>
+              <ul className="dropdown-menu">
+                <li><Link to="/paciente/listar">Listar pacientes</Link></li>
+                <li><Link to="/paciente/cadastrar">Cadastrar pacientes</Link></li>
+              </ul>
             </li>
-            <li>
-              <Link to="/paciente/listar">Listar pacientes</Link>
+            <li className="dropdown">
+              <a href="#">Consultas</a>
+              <ul className="dropdown-menu">
+                <li><Link to="/consulta/listar">Listar consultas</Link></li>
+                <li><Link to="/consulta/agendar">Agendar consulta</Link></li>
+              </ul>
             </li>
-            <li>
-              <Link to="/paciente/cadastrar">Cadastrar pacientes</Link>
+            <li className="dropdown">
+              <a href="#">Setores</a>
+              <ul className="dropdown-menu">
+                <li><Link to="/setor/listar">Listar Setores</Link></li>
+                <li><Link to="/setor/cadastrar">Cadastrar Setor</Link></li>
+              </ul>
             </li>
-            <li>
-              <Link to="/consulta/listar">Listar consultas</Link>
+            <li className="dropdown">
+              <a href="#">Médicos</a>
+              <ul className="dropdown-menu">
+                <li><Link to="/medico/listar">Listar Médicos</Link></li>
+                <li><Link to="/medico/cadastrar">Cadastrar Médico</Link></li>
+              </ul>
             </li>
-            <li>
-              <Link to="/consulta/agendar">Agendar consulta</Link>
-            </li>
-            <li>
-              <Link to="/setor/listar">Listar Setores</Link>
-            </li>
-            <li>
-              <Link to="/setor/cadastrar">Cadastrar Setor</Link>
-            </li>
-            <li>
-              <Link to="/medico/listar">Listar Médicos</Link>
-            </li>
-            <li>
-              <Link to="/medico/cadastrar">Cadastrar Médico</Link>
-            </li>
-            <li>
-              <Link to="/medicamento/listar">Listar medicamentos</Link>
-            </li>
-            <li>
-              <Link to="/medicamento/cadastrar">Cadastrar Medicamento</Link>
+            <li className="dropdown">
+              <a href="#">Medicamentos</a>
+              <ul className="dropdown-menu">
+                <li><Link to="/medicamento/listar">Listar medicamentos</Link></li>
+                <li><Link to="/medicamento/cadastrar">Cadastrar Medicamento</Link></li>
+              </ul>
             </li>
           </ul>
         </nav>
@@ -74,10 +109,10 @@ const App = () => {
           <Route path="/medico/alterar/:id" element={<MedicoAlterar />} />
           <Route path="/medicamento/listar" element={<MedicamentoListar />} />
           <Route path="/medicamento/cadastrar" element={<MedicamentoCadastrar />} />
-          <Route path="/medicamento/alterar/:id" element={<MedicamentoAlterar/>} />
+          <Route path="/medicamento/alterar/:id" element={<MedicamentoAlterar />} />
         </Routes>
-        <footer style={{ textAlign: "center", marginTop: "0px" }}>
-          <p style={{ backgroundColor: "white", padding: "10px", borderRadius: "8px" }}>Sistema de Gestão Hospitalar - DAVI ALVES, EDUARDO CARDOSO, GUSTAVO GIROTTO</p>
+        <footer style={footerStyle}>
+          <p>Sistema de Gestão Hospitalar - DAVI ALVES, EDUARDO CARDOZO, GUSTAVO GIROTTO</p>
         </footer>
       </BrowserRouter>
     </div>

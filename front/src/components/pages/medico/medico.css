@@ -1,3 +1,8 @@
+body{
+  font-family: "Fira Code", monospace;
+}
+
+
 .container {
   max-width: 600px;
   margin: 0 auto;

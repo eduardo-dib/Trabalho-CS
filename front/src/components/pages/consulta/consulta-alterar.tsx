@@ -24,6 +24,7 @@ function ConsultaAlterar() {
   const [observacoes, setObservacoes] = useState("");
   const [pacientes, setPacientes] = useState<Paciente[]>([]);
   const [medicos, setMedicos] = useState<Medico[]>([]);
+  const [mensagem, setMensagem] = useState("");
 
   useEffect(() => {
     if (id) {
@@ -48,7 +49,7 @@ function ConsultaAlterar() {
       .catch((error) => console.error("Erro ao carregar médicos", error));
   }, [id]);
 
-  function salvar(e: any) {
+  function salvar(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const consulta: Consulta = {
       id,
@@ -64,10 +65,12 @@ function ConsultaAlterar() {
       .put(`http://localhost:5098/hospital/consulta/alterar/${id}`, consulta)
       .then((response) => {
         console.log("Consulta alterada com sucesso", response.data);
+        setMensagem("Consulta alterada com sucesso!");
         navigate("/consulta/listar");
       })
       .catch((error) => {
         console.error("Erro ao alterar consulta", error);
+        setMensagem("Erro ao alterar consulta. Verifique os dados e tente novamente.");
       });
   }
 
@@ -75,6 +78,7 @@ function ConsultaAlterar() {
     <div className="container">
       <div className="form-container">
         <h1>Alterar Consulta</h1>
+        {mensagem && <p>{mensagem}</p>}
         <form onSubmit={salvar}>
           <div className="mb-3">
             <label className="form-label">Data e Hora:</label>

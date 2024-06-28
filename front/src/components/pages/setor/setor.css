@@ -1,3 +1,7 @@
+body{
+  font-family: "Fira Code", monospace;
+}
+
 .container {
   display: flex;
   justify-content: center;

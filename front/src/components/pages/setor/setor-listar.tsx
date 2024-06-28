@@ -35,6 +35,7 @@ function SetorListar() {
 
   return (
     <div className="container">
+      <h1>Listar Setores</h1>
       <table className="table">
         <thead>
           <tr>
