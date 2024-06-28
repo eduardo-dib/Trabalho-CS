@@ -28,8 +28,9 @@ const App = () => {
 
   const containerStyle: React.CSSProperties = {
     maxWidth: "600px",
-    margin: "0 auto",
+    margin: "0",
     padding: "20px",
+    paddingLeft: "20vw",
     backgroundColor: "#f8f9fa",
     border: "1px solid #dee2e6",
     borderRadius: "5px",
@@ -40,6 +41,7 @@ const App = () => {
     textAlign: "center" as const,
     marginTop: "20px",
     padding: "10px",
+    margin: "auto",
     backgroundColor: "#f8f9fa",
     border: "1px solid #dee2e6",
     borderRadius: "5px",
