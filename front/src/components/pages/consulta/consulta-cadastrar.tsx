@@ -58,7 +58,8 @@ function ConsultaCadastrar() {
       })
       .catch((error) => {
         console.error("Erro ao cadastrar consulta", error);
-        setMensagem("Erro ao cadastrar consulta. Verifique os dados e tente novamente.");
+        const mensagemErro = error.response?.data || "Erro ao cadastrar consulta. Verifique os dados e tente novamente.";
+        setMensagem(mensagemErro);
       });
   }
 
